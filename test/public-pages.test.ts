@@ -32,6 +32,7 @@ describe('public pages', () => {
 		expect(html).toContain('1990');
 		expect(html).toContain('translation-banner');
 		expect(html).toContain('Amreshwar');
+		expect(html).toContain('A seed in Amreshwar');
 	});
 
 	it('renders Our Story narrative and stats in English', async () => {
@@ -47,7 +48,7 @@ describe('public pages', () => {
 		expect(html).toContain('story-scroll-timeline');
 		expect(html).toContain('64+');
 		expect(html).toContain('our-story-timeline.js');
-		expect(html).toContain('Four decades of Gayatri Pariwar seva');
+		expect(html).toContain('A journey of thirty-five years');
 	});
 
 	it('renders Events hub with spotlight and schedule sections', async () => {

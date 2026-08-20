@@ -2,40 +2,33 @@
 	'use strict';
 
 	function initStoryTimeline(root) {
+		var spineFill = root.querySelector('.story-scroll-timeline__spine-fill');
+		var progressLabel = root.querySelector('[data-story-progress-label]');
+		var items = Array.prototype.slice.call(root.querySelectorAll('.story-scroll-timeline__item'));
 		var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!items.length) return;
+
 		if (reduced) {
 			root.classList.add('story-scroll-timeline--reduced');
-			root.querySelectorAll('.story-scroll-timeline__item').forEach(function (item) {
+			items.forEach(function (item) {
 				item.classList.add('is-visible');
 			});
-			var fill = root.querySelector('.story-scroll-timeline__spine-fill');
-			if (fill) fill.style.height = '100%';
+			if (spineFill) spineFill.style.height = '100%';
 			return;
 		}
 
-		var badge = root.querySelector('[data-story-year-badge]');
-		var spineFill = root.querySelector('.story-scroll-timeline__spine-fill');
-		var items = Array.prototype.slice.call(root.querySelectorAll('.story-scroll-timeline__item'));
-
-		if (!items.length) return;
+		var hideTimer;
 
 		var observer = new IntersectionObserver(
 			function (entries) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
 						entry.target.classList.add('is-visible');
-						var year = entry.target.getAttribute('data-story-year-label') || entry.target.getAttribute('data-story-year');
-						if (badge && year) {
-							badge.textContent = year;
-							badge.classList.add('is-pulse');
-							window.setTimeout(function () {
-								badge.classList.remove('is-pulse');
-							}, 600);
-						}
 					}
 				});
 			},
-			{ root: null, rootMargin: '0px 0px -12% 0px', threshold: 0.2 },
+			{ threshold: 0.25 },
 		);
 
 		items.forEach(function (item) {
@@ -44,18 +37,31 @@
 
 		function updateSpine() {
 			if (!spineFill) return;
-			var track = root.querySelector('.story-scroll-timeline__track');
-			if (!track) return;
-			var rect = track.getBoundingClientRect();
-			var viewport = window.innerHeight || document.documentElement.clientHeight;
-			var start = rect.top;
-			var end = rect.bottom - viewport * 0.35;
-			var progress = 0;
-			if (end > start) {
-				progress = (viewport * 0.65 - start) / (end - start);
+			var rect = root.getBoundingClientRect();
+			var viewportH = window.innerHeight || document.documentElement.clientHeight;
+			var total = rect.height;
+			var scrolled = Math.min(Math.max(viewportH * 0.6 - rect.top, 0), total);
+			var pct = total > 0 ? (scrolled / total) * 100 : 0;
+			spineFill.style.height = pct + '%';
+
+			if (!progressLabel) return;
+
+			var currentYear = '';
+			items.forEach(function (item) {
+				var r = item.getBoundingClientRect();
+				if (r.top < viewportH * 0.6) {
+					currentYear = item.getAttribute('data-story-year-label') || item.getAttribute('data-story-year') || '';
+				}
+			});
+
+			if (currentYear) {
+				progressLabel.textContent = currentYear;
+				progressLabel.classList.add('is-show');
+				window.clearTimeout(hideTimer);
+				hideTimer = window.setTimeout(function () {
+					progressLabel.classList.remove('is-show');
+				}, 900);
 			}
-			progress = Math.max(0, Math.min(1, progress));
-			spineFill.style.height = progress * 100 + '%';
 		}
 
 		updateSpine();

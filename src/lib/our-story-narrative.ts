@@ -39,7 +39,7 @@ const META: Record<Locale, OurStoryMeta> = {
 		title: 'Our Story | Gayatri Kamdhenu Sevatirth',
 		description:
 			'Four decades of Gayatri Pariwar seva — from Amreshwar to Sevatirth Bhorda. Read the full narrative and explore an interactive timeline of milestones.',
-		intro: 'A living journey of seva, sadhana, and community — from Amreshwar to Sevatirth Bhorda.',
+		intro: 'A journey of thirty-five years, told one blessing at a time.',
 	},
 	gu: {
 		pageTitle: 'અમારી કથા',

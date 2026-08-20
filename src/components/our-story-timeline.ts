@@ -20,7 +20,7 @@ export function renderOurStoryPageHead(meta: OurStoryMeta): string {
 	return `<header class="our-story-head">
 	<p class="hero-om" aria-hidden="true">ॐ</p>
 	<h1 class="our-story-head__title">${escapeHtml(meta.pageTitle)}</h1>
-	<span class="hero-rule" aria-hidden="true"></span>
+	<span class="our-story-head__rule" aria-hidden="true"></span>
 	<p class="our-story-head__intro">${escapeHtml(meta.intro)}</p>
 </header>`;
 }
@@ -52,52 +52,48 @@ export function renderOurStoryStats(locale: Locale): string {
 </section>`;
 }
 
+function timelineYearDisplay(event: StoryTimelineEvent): { dataYear: string; yearLabel: string; datetime: string } {
+	if (event.id === 'tle_today') {
+		return { dataYear: 'Today', yearLabel: 'TODAY', datetime: '2026' };
+	}
+	return { dataYear: String(event.year), yearLabel: String(event.year), datetime: String(event.year) };
+}
+
 export function renderOurStoryScrollTimeline(events: StoryTimelineEvent[], locale: Locale): string {
 	if (events.length === 0) {
 		return `<p class="lead">${locale === 'gu' ? 'સમયરેખા ટૂંક સમયમાં ઉપલબ્ધ થશે.' : 'Timeline content will appear here soon.'}</p>`;
 	}
 
 	const recentIds = new Set(events.slice(-2).map((e) => e.id));
+	const label = locale === 'gu' ? 'સમયરેખા' : 'Timeline';
 
 	const items = events
-		.map((event, index) => {
-			const side = index % 2 === 0 ? 'is-left' : 'is-right';
-			const recent = recentIds.has(event.id) ? ' is-recent' : '';
+		.map((event) => {
+			const { dataYear, yearLabel, datetime } = timelineYearDisplay(event);
+			const latest = recentIds.has(event.id) ? ' is-latest' : '';
 			const pending = event.translationPending
 				? `<span class="story-timeline-card__pending">${locale === 'gu' ? 'અનુવાદ બાકી' : 'Translation pending'}</span>`
 				: '';
 			const image = event.imageUrl
 				? `<img class="story-timeline-card__image" src="${escapeHtml(event.imageUrl)}" alt="" loading="lazy" width="320" height="180" />`
 				: '';
-			const yearLabel = event.title === 'Today' ? 'Today' : String(event.year);
-			const datetime = event.title === 'Today' ? '2026' : String(event.year);
 
-			return `<li class="story-scroll-timeline__item ${side}${recent}" data-story-year="${escapeHtml(String(event.year))}" data-story-year-label="${escapeHtml(yearLabel)}">
+			return `<li class="story-scroll-timeline__item${latest}" data-story-year="${escapeHtml(dataYear)}" data-story-year-label="${escapeHtml(yearLabel)}">
+	<span class="story-scroll-timeline__dot" aria-hidden="true"></span>
 	<article class="story-timeline-card">
-		<header class="story-timeline-card__header">
-			<time class="story-timeline-card__year" datetime="${escapeHtml(datetime)}">${escapeHtml(yearLabel)}</time>
-			<h3 class="story-timeline-card__title">${escapeHtml(event.title)}</h3>
-			${pending}
-		</header>
+		<div class="story-timeline-card__year"><time datetime="${escapeHtml(datetime)}">${escapeHtml(yearLabel)}</time></div>
+		<h3 class="story-timeline-card__title">${escapeHtml(event.title)}${pending}</h3>
 		${image}
 		<p class="story-timeline-card__desc">${escapeHtml(event.description)}</p>
 	</article>
-	<span class="story-scroll-timeline__marker" aria-hidden="true"></span>
 </li>`;
 		})
 		.join('\n');
 
-	const firstYear = events[0]?.year ?? 1990;
-	const label = locale === 'gu' ? 'સમયરેખા' : 'Timeline';
-
 	return `<section class="story-scroll-timeline" data-story-timeline aria-label="${escapeHtml(label)}">
-	<div class="story-scroll-timeline__track">
-		<div class="story-scroll-timeline__spine" aria-hidden="true">
-			<div class="story-scroll-timeline__spine-fill"></div>
-		</div>
-		<div class="story-scroll-timeline__year-badge" aria-hidden="true" data-story-year-badge>${escapeHtml(String(firstYear))}</div>
-		<ol class="story-scroll-timeline__list">${items}</ol>
-	</div>
+	<div class="story-scroll-timeline__spine" aria-hidden="true"><div class="story-scroll-timeline__spine-fill"></div></div>
+	<ol class="story-scroll-timeline__list">${items}</ol>
+	<div class="story-scroll-timeline__progress-label" data-story-progress-label aria-hidden="true"></div>
 </section>`;
 }
 

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Story — Timeline</title>
+<style>
+  :root {
+    --gold: #D9A62E;
+    --gold-deep: #A8690D;
+    --pale-gold: #FBEFD1;
+    --cream: #FDF8ED;
+    --ink: #2B211C;
+    --warm-grey: #6B5D4F;
+    --maroon: #7A2E22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+  }
+  .page-head {
+    text-align: center;
+    padding: 70px 20px 30px 20px;
+  }
+  .page-head .om { color: var(--gold); font-size: 26px; margin-bottom: 8px; }
+  .page-head h1 { font-size: 34px; margin: 0 0 10px 0; }
+  .page-head .rule { width: 50px; height: 3px; background: var(--gold); margin: 0 auto 14px auto; }
+  .page-head p {
+    font-family: Georgia, serif; font-style: italic; color: var(--warm-grey);
+    max-width: 480px; margin: 0 auto; font-size: 16px;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 60px auto 100px auto;
+    padding: 0 20px;
+  }
+
+  /* center spine */
+  .spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    margin-left: -1.5px;
+    background: rgba(122,46,34,0.12);
+  }
+  .spine-fill {
+    position: absolute;
+    left: 0; top: 0; width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, var(--gold), var(--gold-deep));
+    transition: height 0.15s ease-out;
+  }
+
+  .item {
+    position: relative;
+    width: 50%;
+    padding: 0 50px 70px 50px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .item.visible { opacity: 1; transform: translateY(0); }
+
+  .item:nth-child(odd) { left: 0; text-align: right; }
+  .item:nth-child(even) { left: 50%; text-align: left; }
+
+  .dot {
+    position: absolute;
+    top: 2px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 3px solid var(--gold-deep);
+    z-index: 2;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .item:nth-child(odd) .dot { right: -11px; }
+  .item:nth-child(even) .dot { left: -11px; }
+  .item.visible .dot {
+    border-color: var(--maroon);
+    box-shadow: 0 0 0 6px rgba(217,166,46,0.25);
+  }
+  .item.visible.latest .dot {
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 6px rgba(217,166,46,0.25); }
+    50% { box-shadow: 0 0 0 12px rgba(217,166,46,0.12); }
+  }
+
+  .card {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #ecdfc9;
+    border-radius: 10px;
+    padding: 18px 22px;
+    max-width: 340px;
+    box-shadow: 0 2px 10px rgba(122,46,34,0.06);
+  }
+  .year {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--gold-deep);
+    margin-bottom: 6px;
+  }
+  .title { font-size: 19px; font-weight: 700; color: var(--maroon); margin: 0 0 8px 0; }
+  .desc { font-size: 14.5px; line-height: 1.55; color: var(--warm-grey); margin: 0; font-family: Georgia, serif; }
+
+  @media (max-width: 720px) {
+    .spine { left: 22px; margin-left: 0; }
+    .item { width: 100%; left: 0 !important; text-align: left !important; padding: 0 0 50px 56px; }
+    .item:nth-child(odd) .dot, .item:nth-child(even) .dot { left: 11px; right: auto; }
+    .card { max-width: 100%; }
+  }
+
+  .progress-label {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--pale-gold);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+  }
+  .progress-label.show { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+  <div class="page-head">
+    <div class="om">ॐ</div>
+    <h1>Our Story</h1>
+    <div class="rule"></div>
+    <p>A journey of thirty-five years, told one blessing at a time.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="spine"><div class="spine-fill" id="spineFill"></div></div>
+
+    <div class="item" data-year="1990">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">1990</div>
+        <div class="title">A seed in Amreshwar</div>
+        <p class="desc">Bal Sanskar Kendra, Swadhyay Kendra, Deep Yagna, and the Jhola Pustakalay begin carrying Gurudev's message door to door, on foot and by bullock cart.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="1998">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">1998</div>
+        <div class="title">Reaching Dabhoi</div>
+        <p class="desc">The Swadhyay Kendra takes root. Kanya Kaushalya Shibir begins — 35 camps and counting, shaping thousands of young girls.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="1999">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">1999</div>
+        <div class="title">The Pragya Puran Katha begins</div>
+        <p class="desc">Rashmikaben Patel — Pragyaputri — starts telling stories that carry Gurudev's seven missions into every home that listens.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="2003">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2003</div>
+        <div class="title">Maa Bhagwati Pragya Bhavan</div>
+        <p class="desc">Established in Dabhoi with the blessings of Dr. Pranav Pandya, as the family outgrows its first home.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="2006">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2006</div>
+        <div class="title">Shri Ram Shraddha Bhavan</div>
+        <p class="desc">Inaugurated by Shukla Baba of Bihar — a larger home for a growing devotion.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="2016">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2016</div>
+        <div class="title">The Gurukul opens</div>
+        <p class="desc">24 tribal girls welcomed with free education, values, and a path to self-reliance — a promise kept for Param Vandaniya Mataji.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="2017">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2017</div>
+        <div class="title">Shivalaya consecrated</div>
+        <p class="desc">Its heart had already been beating since 2003 — daily Yagna, meditation, and evening aarti, without pause.</p>
+      </div>
+    </div>
+
+    <div class="item" data-year="2022">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2022</div>
+        <div class="title">Land given, in Bhorda</div>
+        <p class="desc">Rashmikaben donates her ancestral land. Gayatri Kamdhenu Sevatirth is born from that single act of giving.</p>
+      </div>
+    </div>
+
+    <div class="item latest" data-year="2023">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">2023</div>
+        <div class="title">108 Kundi Mahayagya</div>
+        <p class="desc">A grand Mahayagya, presided over by Dr. Chinmay Pandya — not an ending, but a beginning for the Sevatirth.</p>
+      </div>
+    </div>
+
+    <div class="item latest" data-year="Today">
+      <div class="dot"></div>
+      <div class="card">
+        <div class="year">TODAY</div>
+        <div class="title">A living sanctuary</div>
+        <p class="desc">64+ tribal girls call it home. 30+ cows are cared for daily. Elders find dignity here. Every prayer, still building.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="progress-label" id="progressLabel"></div>
+
+  <script>
+    const items = document.querySelectorAll('.item');
+    const timeline = document.getElementById('timeline');
+    const spineFill = document.getElementById('spineFill');
+    const progressLabel = document.getElementById('progressLabel');
+    let hideTimer;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.25 });
+    items.forEach(item => io.observe(item));
+
+    function updateSpine() {
+      const rect = timeline.getBoundingClientRect();
+      const viewportH = window.innerHeight;
+      const total = rect.height;
+      const scrolled = Math.min(Math.max(viewportH * 0.6 - rect.top, 0), total);
+      const pct = total > 0 ? (scrolled / total) * 100 : 0;
+      spineFill.style.height = pct + '%';
+
+      let currentYear = '';
+      items.forEach(item => {
+        const r = item.getBoundingClientRect();
+        if (r.top < viewportH * 0.6) currentYear = item.dataset.year;
+      });
+      if (currentYear) {
+        progressLabel.textContent = currentYear;
+        progressLabel.classList.add('show');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => progressLabel.classList.remove('show'), 900);
+      }
+    }
+
+    window.addEventListener('scroll', updateSpine, { passive: true });
+    window.addEventListener('resize', updateSpine);
+    updateSpine();
+  </script>
+
+</body>
+</html>
