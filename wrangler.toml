@@ -1,8 +1,7 @@
 # Gayatri Kamdhenu Sevatirth — sevatirthbhorda.org
 # Configuration reference: https://developers.cloudflare.com/workers/wrangler/configuration/
 #
-# D1 database_id below is a PLACEHOLDER for local `wrangler dev` only.
-# After provisioning: run `wrangler d1 create sevatirth-bhorda`, paste the real id here, then apply migrations remotely.
+# Production D1: sevatirth-bhorda (OC). Apply migrations with: npm run db:migrate:remote
 # See SETUP.md.
 
 name = "sevatirth-bhorda"
@@ -38,8 +37,7 @@ run_worker_first = true
 [[d1_databases]]
 binding = "DB"
 database_name = "sevatirth-bhorda"
-# Replace after: wrangler d1 create sevatirth-bhorda
-database_id = "00000000-0000-4000-8000-000000000001"
+database_id = "38e6a8df-65ea-4d2a-bad3-c962ca6dcc1a"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
