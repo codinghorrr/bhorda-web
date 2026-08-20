@@ -4,6 +4,7 @@ Cloudflare Workers site for [Gayatri Kamdhenu Sevatirth, Bhorda](https://sevatir
 
 - Product requirements: [`PRD.md`](./PRD.md)
 - Infrastructure setup: [`SETUP.md`](./SETUP.md)
+- GitHub: [`github.com/codinghorrr/bhorda-web`](https://github.com/codinghorrr/bhorda-web)
 
 ```bash
 npm install

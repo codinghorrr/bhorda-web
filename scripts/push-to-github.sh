@@ -9,7 +9,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-GITHUB_REPO="${GITHUB_REPO:-axiso/bhorda-web}"
+GITHUB_REPO="${GITHUB_REPO:-codinghorrr/bhorda-web}"
 GITHUB_HOST="${GITHUB_HOST:-github.com}"
 GITHUB_BRANCH="${GITHUB_BRANCH:-main}"
 
@@ -24,6 +24,8 @@ if [[ -z "${GH_TOKEN:-}" ]] && ! gh auth status >/dev/null 2>&1; then
 fi
 
 export GH_TOKEN="${GH_TOKEN:-}"
+
+gh auth setup-git
 
 if gh repo view "$GITHUB_REPO" >/dev/null 2>&1; then
 	echo "GitHub repo $GITHUB_REPO already exists."

@@ -143,7 +143,7 @@ bash scripts/production-deploy.sh
 
 The canonical remote today is **Origin**: `https://origin.cursor.com/git/axiso/bhorda-web.git` (branch `main` is up to date).
 
-To mirror on **GitHub** (`github.com/axiso/bhorda-web`):
+To mirror on **GitHub** (`github.com/codinghorrr/bhorda-web`):
 
 1. Create a [GitHub personal access token](https://github.com/settings/tokens) with **`repo`** scope.
 2. Add it to Cloud Agent secrets as **`GH_TOKEN`**, or export it locally.
