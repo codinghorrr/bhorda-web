@@ -16,6 +16,7 @@ export async function tryServeStaticAsset(request: Request, env: Env): Promise<R
 function isStaticAssetPath(pathname: string): boolean {
 	return (
 		pathname.startsWith('/styles/') ||
+		pathname.startsWith('/scripts/') ||
 		pathname.startsWith('/fonts/') ||
 		pathname.startsWith('/images/') ||
 		/\.(?:css|js|png|jpe?g|gif|svg|webp|ico|woff2?|txt)$/i.test(pathname)

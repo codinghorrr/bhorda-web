@@ -5,6 +5,7 @@ import migration0004 from '../../migrations/0004_reminders_and_seed.sql?raw';
 import migration0005 from '../../migrations/0005_analytics_page_views.sql?raw';
 import migration0006 from '../../migrations/0006_launch_content.sql?raw';
 import migration0007 from '../../migrations/0007_remove_test_manager.sql?raw';
+import migration0008 from '../../migrations/0008_our_story_timeline.sql?raw';
 
 let applied = false;
 
@@ -38,5 +39,6 @@ export async function ensureTestMigrations(db: D1Database): Promise<void> {
 	await execMigration(db, migration0005);
 	await execMigration(db, migration0006);
 	await execMigration(db, migration0007);
+	await execMigration(db, migration0008);
 	applied = true;
 }

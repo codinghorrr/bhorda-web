@@ -1,10 +1,19 @@
 import { renderPageShell } from '../../components/layout';
-import { renderPublicForm, renderSubNav, renderTimeline, type TimelineEvent } from '../../components/public-page';
-import type { Locale } from '../../lib/i18n';
-import { localizedPath } from '../../lib/i18n';
+import {
+	ourStoryTimelineHeadExtras,
+	renderOurStoryNarrative,
+	renderOurStoryPageHead,
+	renderOurStoryScrollTimeline,
+	renderOurStoryStats,
+	type StoryTimelineEvent,
+} from '../../components/our-story-timeline';
+import { renderSubNav } from '../../components/public-page';
 import { getPageText } from '../../lib/content';
 import { escapeHtml } from '../../lib/html';
-import { loadPageContent, pickLocalized, submittedFromUrl, pageHeading } from '../../lib/page-helpers';
+import type { Locale } from '../../lib/i18n';
+import { localizedPath } from '../../lib/i18n';
+import { loadPageContent, pickLocalized, pageHeading } from '../../lib/page-helpers';
+import { ourStoryMeta, ourStoryNarrative } from '../../lib/our-story-narrative';
 import { ABOUT_PAGES } from '../../lib/site-structure';
 import { siteCopy } from '../../lib/site';
 
@@ -37,7 +46,7 @@ function aboutSubNav(locale: Locale, pathname: string) {
 	]);
 }
 
-async function loadTimeline(db: D1Database, locale: Locale): Promise<TimelineEvent[]> {
+async function loadStoryTimeline(db: D1Database, locale: Locale): Promise<{ events: StoryTimelineEvent[]; translationPending: boolean }> {
 	const rows = await db
 		.prepare('SELECT id, year, title_en, title_gu, desc_en, desc_gu, image_url FROM timeline_events ORDER BY sort_order, year')
 		.all<{
@@ -50,15 +59,26 @@ async function loadTimeline(db: D1Database, locale: Locale): Promise<TimelineEve
 			image_url: string | null;
 		}>();
 
-	return (
-		rows.results?.map((row) => ({
-			id: row.id,
-			year: row.year,
-			title: locale === 'gu' && row.title_gu ? row.title_gu : row.title_en,
-			description: locale === 'gu' && row.desc_gu ? row.desc_gu : row.desc_en ?? '',
-			imageUrl: row.image_url,
-		})) ?? []
-	);
+	let translationPending = false;
+	const events =
+		rows.results?.map((row) => {
+			const guTitle = (row.title_gu ?? '').trim();
+			const guDesc = (row.desc_gu ?? '').trim();
+			const useGu = locale === 'gu' && guTitle.length > 0;
+			if (locale === 'gu' && (!guTitle || !guDesc)) {
+				translationPending = true;
+			}
+			return {
+				id: row.id,
+				year: row.year,
+				title: useGu ? guTitle : row.title_en,
+				description: locale === 'gu' && guDesc ? guDesc : row.desc_en ?? '',
+				imageUrl: row.image_url,
+				translationPending: locale === 'gu' && (!guTitle || !guDesc),
+			};
+		}) ?? [];
+
+	return { events, translationPending };
 }
 
 export async function renderAboutPage(
@@ -106,27 +126,31 @@ ${pageHeading(content.title)}
 	}
 
 	if (pathname === '/about/our-story') {
-		const fb = ABOUT_FALLBACK['about-our-story'][locale];
-		const content = await loadPageContent(env.DB, locale, {
-			pageKey: 'about-our-story',
-			fallbackTitle: fb.title,
-			fallbackBody: fb.body,
-		});
-		const timeline = await loadTimeline(env.DB, locale);
+		const meta = ourStoryMeta(locale);
+		const { events, translationPending: timelinePending } = await loadStoryTimeline(env.DB, locale);
+		const narrative = ourStoryNarrative(locale);
 
-		const main = `<div class="container page-about">
+		const main = `<div class="page-our-story">
 ${subNav}
-${pageHeading(content.title, content.bodyHtml.replace(/<[^>]+>/g, '').slice(0, 120))}
-${renderTimeline(timeline, locale)}
+<div class="container page-our-story__inner">
+${renderOurStoryPageHead(meta)}
+${renderOurStoryNarrative(locale)}
+${renderOurStoryStats(locale)}
+</div>
+<div class="container page-our-story__timeline">
+${renderOurStoryScrollTimeline(events, locale)}
+</div>
 </div>`;
 
 		return renderPageShell({
 			locale,
 			pathname,
-			title: `${content.title} | ${copy.siteName}`,
+			title: meta.title,
+			description: meta.description,
 			origin,
 			main,
-			translationPending: content.translationPending,
+			translationPending: timelinePending || narrative.translationPending,
+			headExtras: ourStoryTimelineHeadExtras(),
 			env,
 			url,
 		});

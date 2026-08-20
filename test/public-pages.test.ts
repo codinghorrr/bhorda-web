@@ -28,8 +28,26 @@ describe('public pages', () => {
 		await waitOnExecutionContext(ctx);
 		expect(response.status).toBe(200);
 		const html = await response.text();
-		expect(html).toContain('timeline');
+		expect(html).toContain('story-scroll-timeline');
 		expect(html).toContain('1990');
+		expect(html).toContain('translation-banner');
+		expect(html).toContain('Amreshwar');
+	});
+
+	it('renders Our Story narrative and stats in English', async () => {
+		const request = new IncomingRequest('http://example.com/en/about/our-story');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		const html = await response.text();
+		expect(html).toContain('our-story-head');
+		expect(html).toContain('our-story-narrative');
+		expect(html).toContain('story-stats');
+		expect(html).toContain('story-scroll-timeline');
+		expect(html).toContain('64+');
+		expect(html).toContain('our-story-timeline.js');
+		expect(html).toContain('Four decades of Gayatri Pariwar seva');
 	});
 
 	it('renders Events hub with spotlight and schedule sections', async () => {
