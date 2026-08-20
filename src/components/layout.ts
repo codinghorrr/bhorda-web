@@ -13,10 +13,11 @@ export type PageShellOptions = {
 	origin: string;
 	main: string;
 	translationPending?: boolean;
+	headExtras?: string;
 };
 
 export function renderPageShell(options: PageShellOptions): string {
-	const { locale, pathname, title, description, origin, main, translationPending = false } = options;
+	const { locale, pathname, title, description, origin, main, translationPending = false, headExtras = '' } = options;
 	const copy = siteCopy(locale);
 	const lang = htmlLang(locale);
 	const canonical = absoluteLocalizedUrl(origin, locale, pathname);
@@ -43,8 +44,10 @@ export function renderPageShell(options: PageShellOptions): string {
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" /></noscript>
 	<link rel="stylesheet" href="/styles/site.css" />
+	${headExtras}
 </head>
 <body>
 	<a class="skip-link" href="#main-content">${locale === 'gu' ? 'મુખ્ય સામગ્રી પર જાઓ' : 'Skip to main content'}</a>

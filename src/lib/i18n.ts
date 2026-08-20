@@ -16,6 +16,9 @@ const LOCALE_PREFIX_RE = /^\/(en|gu)(?=\/|$)/;
 export function isI18nExemptPath(pathname: string): boolean {
 	return (
 		pathname === '/health' ||
+		pathname === '/sitemap.xml' ||
+		pathname === '/llms.txt' ||
+		pathname === '/llms-full.txt' ||
 		pathname === '/vedmata' ||
 		pathname.startsWith('/vedmata/') ||
 		pathname.startsWith('/api/')

@@ -7,10 +7,12 @@ import {
 	handleOtpVerify,
 	handleSuperadminLogin,
 } from './auth-handlers';
+import { handleAnalyticsRoutes } from './handlers/analytics';
 import { handleEventsRoutes } from './handlers/events';
 import { handleGalleryRoutes } from './handlers/gallery';
 import { handlePageTextRoutes } from './handlers/page-text';
 import { handleScheduleRoutes } from './handlers/schedule';
+import { handleSettingsRoutes } from './handlers/settings';
 import { handleStallRoutes } from './handlers/stall';
 import { handleSubmissionsRoutes } from './handlers/submissions';
 import { renderAdminHome, renderAdminSection } from './pages';
@@ -32,6 +34,8 @@ const CONTENT_HANDLERS: ContentHandler[] = [
 	handleStallRoutes,
 	handlePageTextRoutes,
 	handleSubmissionsRoutes,
+	handleSettingsRoutes,
+	handleAnalyticsRoutes,
 ];
 
 async function renderForbidden(request: Request, env: Env, session: NonNullable<Awaited<ReturnType<typeof getAuthSession>>>, pathname: string): Promise<Response> {

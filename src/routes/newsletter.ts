@@ -1,11 +1,21 @@
-import { htmlResponse } from '../lib/html';
+import { clientIdentifier, checkRateLimit, recordRateLimitAttempt } from '../lib/rate-limit';
 
 /**
- * Newsletter subscribe stub — real Sendy POST wiring lands in Phase 6 (PRD §6.7).
+ * Newsletter subscribe — posts to Sendy in Phase 6 (PRD §6.7).
+ * Rate-limited like other public forms (PRD §10).
  */
-export async function handleNewsletterSubscribe(request: Request): Promise<Response> {
+export async function handleNewsletterSubscribe(request: Request, env: Env): Promise<Response> {
 	if (request.method !== 'POST') {
 		return new Response('Method Not Allowed', { status: 405 });
+	}
+
+	const ip = clientIdentifier(request);
+	const rate = await checkRateLimit(env.DB, 'form_submit', `newsletter:${ip}`);
+	if (!rate.allowed) {
+		return new Response('Too many requests. Please try again later.', {
+			status: 429,
+			headers: { 'Retry-After': String(rate.retryAfterSeconds) },
+		});
 	}
 
 	const contentType = request.headers.get('Content-Type') ?? '';
@@ -22,7 +32,8 @@ export async function handleNewsletterSubscribe(request: Request): Promise<Respo
 		return new Response('Invalid email', { status: 400 });
 	}
 
-	// Stub: acknowledge without forwarding to Sendy yet.
+	await recordRateLimitAttempt(env.DB, 'form_submit', `newsletter:${ip}`);
+
 	return new Response(null, {
 		status: 204,
 		headers: {

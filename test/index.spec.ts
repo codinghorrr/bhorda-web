@@ -1,8 +1,13 @@
 import { createExecutionContext, env, SELF, waitOnExecutionContext } from 'cloudflare:test';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import worker from '../src/index';
+import { ensureTestMigrations } from './helpers/migrations';
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
+
+beforeAll(async () => {
+	await ensureTestMigrations(env.DB);
+});
 
 describe('health check', () => {
 	it('returns 200 and JSON status (unit style)', async () => {

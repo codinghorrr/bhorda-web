@@ -46,6 +46,10 @@ export async function scheduleOccasionReminder(
 }
 
 export async function getSiteSetting(db: D1Database, key: string): Promise<string | null> {
-	const row = await db.prepare('SELECT value FROM site_settings WHERE key = ?').bind(key).first<{ value: string }>();
-	return row?.value ?? null;
+	try {
+		const row = await db.prepare('SELECT value FROM site_settings WHERE key = ?').bind(key).first<{ value: string }>();
+		return row?.value ?? null;
+	} catch {
+		return null;
+	}
 }
