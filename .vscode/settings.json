@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"wrangler.toml": "toml",
+		"wrangler.json": "jsonc"
+	}
+}
