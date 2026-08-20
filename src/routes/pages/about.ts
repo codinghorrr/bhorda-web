@@ -135,8 +135,8 @@ ${subNav}
 <div class="container page-our-story__inner">
 ${renderOurStoryPageHead(meta)}
 ${renderOurStoryNarrative(locale)}
-${renderOurStoryStats(locale)}
 </div>
+${renderOurStoryStats(locale)}
 <div class="container page-our-story__timeline">
 ${renderOurStoryScrollTimeline(events, locale)}
 </div>

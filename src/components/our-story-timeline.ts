@@ -40,6 +40,7 @@ export function renderOurStoryNarrative(locale: Locale): string {
 }
 
 export function renderOurStoryStats(locale: Locale): string {
+	const heading = locale === 'gu' ? 'એક નજરમાં' : 'At a glance';
 	const cards = OUR_STORY_STATS.map(
 		(stat) => `<div class="story-stat-card">
 	<span class="story-stat-card__value">${escapeHtml(stat.value)}</span>
@@ -47,8 +48,11 @@ export function renderOurStoryStats(locale: Locale): string {
 </div>`,
 	).join('\n');
 
-	return `<section class="story-stats" aria-label="${locale === 'gu' ? 'મુખ્ય આંકડા' : 'Key figures'}">
+	return `<section class="story-stats" aria-labelledby="our-story-stats-title">
+	<div class="container story-stats__inner">
+	<h2 id="our-story-stats-title" class="story-stats__title">${escapeHtml(heading)}</h2>
 	<div class="story-stats__grid">${cards}</div>
+	</div>
 </section>`;
 }
 
@@ -66,6 +70,7 @@ export function renderOurStoryScrollTimeline(events: StoryTimelineEvent[], local
 
 	const recentIds = new Set(events.slice(-2).map((e) => e.id));
 	const label = locale === 'gu' ? 'સમયરેખા' : 'Timeline';
+	const heading = locale === 'gu' ? 'માઇલસ્ટોન' : 'Milestones';
 
 	const items = events
 		.map((event) => {
@@ -91,6 +96,7 @@ export function renderOurStoryScrollTimeline(events: StoryTimelineEvent[], local
 		.join('\n');
 
 	return `<section class="story-scroll-timeline" data-story-timeline aria-label="${escapeHtml(label)}">
+	<h2 class="story-scroll-timeline__heading">${escapeHtml(heading)}</h2>
 	<div class="story-scroll-timeline__spine" aria-hidden="true"><div class="story-scroll-timeline__spine-fill"></div></div>
 	<ol class="story-scroll-timeline__list">${items}</ol>
 	<div class="story-scroll-timeline__progress-label" data-story-progress-label aria-hidden="true"></div>
