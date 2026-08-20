@@ -36,3 +36,82 @@ describe('www redirect', () => {
 		expect(response.headers.get('Location')).toBe('https://sevatirthbhorda.org/health?x=1');
 	});
 });
+
+describe('i18n routing', () => {
+	it('redirects / to /en/ by default', async () => {
+		const request = new IncomingRequest('http://example.com/');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(302);
+		expect(response.headers.get('Location')).toBe('http://example.com/en');
+	});
+
+	it('redirects / to /gu/ when Accept-Language prefers Gujarati', async () => {
+		const request = new IncomingRequest('http://example.com/', {
+			headers: { 'Accept-Language': 'gu,en;q=0.8' },
+		});
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(302);
+		expect(response.headers.get('Location')).toBe('http://example.com/gu');
+	});
+
+	it('renders the home page in English', async () => {
+		const request = new IncomingRequest('http://example.com/en');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(200);
+		const html = await response.text();
+		expect(html).toContain('lang="en"');
+		expect(html).toContain('hreflang="en"');
+		expect(html).toContain('hreflang="gu"');
+		expect(html).toContain('Welcome to Gayatri Kamdhenu Sevatirth');
+		expect(html).toContain('href="/gu"');
+	});
+
+	it('renders the home page in Gujarati', async () => {
+		const request = new IncomingRequest('http://example.com/gu');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(200);
+		const html = await response.text();
+		expect(html).toContain('lang="gu"');
+		expect(html).toContain('ગાયત્રી કામધેનુ સેવાતીર્થમાં');
+		expect(html).toContain('href="/en"');
+	});
+
+	it('language switcher preserves the current page path', async () => {
+		const request = new IncomingRequest('http://example.com/en/about');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(404);
+		const html = await response.text();
+		expect(html).toContain('href="/gu/about"');
+	});
+});
+
+describe('newsletter stub', () => {
+	it('accepts a valid email POST', async () => {
+		const request = new IncomingRequest('http://example.com/api/newsletter/subscribe', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: 'email=test@example.com&locale=en',
+		});
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(204);
+		expect(response.headers.get('X-Newsletter-Stub')).toBe('pending-sendy-integration');
+	});
+});
