@@ -1,7 +1,8 @@
 # Gayatri Kamdhenu Sevatirth — sevatirthbhorda.org
 # Configuration reference: https://developers.cloudflare.com/workers/wrangler/configuration/
 #
-# D1 database_id is a local-dev placeholder until `wrangler d1 create` is run.
+# D1 database_id below is a PLACEHOLDER for local `wrangler dev` only.
+# After provisioning: run `wrangler d1 create sevatirth-bhorda`, paste the real id here, then apply migrations remotely.
 # See SETUP.md.
 
 name = "sevatirth-bhorda"
@@ -48,9 +49,12 @@ bucket_name = "sevatirth-bhorda-media"
 [triggers]
 crons = ["0 6 * * *"]
 
-# Declared Worker secrets
-# Set each one with: wrangler secret put <NAME>
+# Declared Worker secrets — set each with: wrangler secret put <NAME>
 # Local values go in .env (see .env.example). Do not commit real values.
+#
+# Runtime requirements:
+#   Required for admin OTP + reminder email: SUPERADMIN_PASSWORD, SES_ACCESS_KEY, SES_SECRET_KEY
+#   Optional (graceful fallback when unset/placeholder): SENDY_URL, SENDY_LIST_ID, GA4_ID
 [secrets]
 required = [
 	"SUPERADMIN_PASSWORD",

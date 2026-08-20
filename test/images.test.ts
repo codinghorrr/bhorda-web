@@ -4,6 +4,7 @@ import worker from '../src/index';
 import { createSession, sessionCookieHeader } from '../src/lib/auth';
 import { deriveSessionSigningKey } from '../src/lib/crypto';
 import { ensureTestMigrations } from './helpers/migrations';
+import { ensureTestManagerUser } from './helpers/test-users';
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
@@ -22,6 +23,7 @@ function base64ToUint8Array(b64: string): Uint8Array {
 
 beforeAll(async () => {
 	await ensureTestMigrations(env.DB);
+	await ensureTestManagerUser(env.DB);
 });
 
 async function managerSessionCookie(): Promise<string> {

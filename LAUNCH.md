@@ -19,11 +19,13 @@ SES is used for admin OTP email (`SES_ACCESS_KEY`, `SES_SECRET_KEY`, `SES_REGION
 
 ## 2. Database migrations (production D1)
 
-Apply all migrations including launch content:
+Apply all migrations including launch content and the test-manager cleanup:
 
 ```bash
 npm run db:migrate:remote
 ```
+
+Migration `0007_remove_test_manager.sql` ensures `manager.test@sevatirthbhorda.org` is not present in production.
 
 Migration `0006_launch_content.sql` seeds About, Activities, Sanskar, home blocks, sample spotlight events, and gallery videos.
 
@@ -39,6 +41,8 @@ Migration `0006_launch_content.sql` seeds About, Activities, Sanskar, home block
 Deploy:
 
 ```bash
+npm run typecheck
+npm test
 npm run deploy
 ```
 

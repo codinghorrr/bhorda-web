@@ -6,6 +6,8 @@ export const SITE_NAME_GU = 'ગાયત્રી કામધેનુ સે�
 export const SITE_ORIGIN = 'https://sevatirthbhorda.org';
 
 export type SiteCopy = {
+	siteName: string;
+	tagline: string;
 	brandLine1: string;
 	brandLine2: string;
 	brandLocation: string;

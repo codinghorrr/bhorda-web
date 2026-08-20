@@ -47,6 +47,8 @@ npx wrangler d1 migrations apply sevatirth-bhorda --local
 npx wrangler d1 migrations apply sevatirth-bhorda --remote
 ```
 
+Migration `0007_remove_test_manager.sql` removes the development-only `manager.test@sevatirthbhorda.org` account seeded in `0002`. Integration tests re-insert that user in test setup only.
+
 ## Worker secrets
 
 Secrets are declared in `wrangler.toml` under `[secrets].required`. Do not put values in the Wrangler file or in git.
@@ -62,14 +64,14 @@ npx wrangler secret put SENDY_LIST_ID
 npx wrangler secret put GA4_ID
 ```
 
-| Secret | Purpose |
-|---|---|
-| `SUPERADMIN_PASSWORD` | Break-glass Superadmin login (`hello@axiso.com.au`) |
-| `SES_ACCESS_KEY` | Amazon SES access key for OTP / staff email |
-| `SES_SECRET_KEY` | Amazon SES secret key |
-| `SENDY_URL` | Sendy install base URL (newsletter form) |
-| `SENDY_LIST_ID` | Sendy list id for the site subscribe form |
-| `GA4_ID` | Google Analytics 4 measurement id |
+| Secret | Purpose | Required at launch? |
+|---|---|---|
+| `SUPERADMIN_PASSWORD` | Break-glass Superadmin login (`hello@axiso.com.au`) | **Yes** |
+| `SES_ACCESS_KEY` | Amazon SES access key for OTP / staff email | **Yes** |
+| `SES_SECRET_KEY` | Amazon SES secret key | **Yes** |
+| `SENDY_URL` | Sendy install base URL (newsletter form) | No — shows “coming soon” until configured |
+| `SENDY_LIST_ID` | Sendy list id for the site subscribe form | No — shows “coming soon” until configured |
+| `GA4_ID` | Google Analytics 4 measurement id (reference in admin UI) | No — analytics snippet optional in Site Settings |
 
 List configured secrets (names only): `npx wrangler secret list`
 
@@ -99,9 +101,9 @@ npm run deploy
 - CSRF tokens are required on all `/vedmata` POST actions.
 - Login endpoints are rate-limited via the `auth_attempts` table.
 
-**Test fixture:** migration `0002` seeds `manager.test@sevatirthbhorda.org` (manager role) for RBAC verification — remove before production launch.
-
 Local dev without real SES logs OTP codes to the `wrangler dev` console.
+
+Before deploy, run `npm run typecheck` and `npm test`.
 
 
 | Binding | Resource | Config |
@@ -136,6 +138,8 @@ Add these secrets in the Cursor Cloud Agent environment settings (not in git):
 Production deploy from an agent with `CLOUDFLARE_API_TOKEN` set:
 
 ```bash
+npm run typecheck
+npm test
 bash scripts/production-deploy.sh
 ```
 
