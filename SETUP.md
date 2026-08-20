@@ -91,7 +91,18 @@ npm run deploy
 
 `workers.dev` preview URLs stay enabled so the Worker can be hit before DNS is attached.
 
-## Bindings
+## Admin authentication (`/vedmata`)
+
+- **Superadmin** (`hello@axiso.com.au`): password from `SUPERADMIN_PASSWORD` secret (break-glass path).
+- **Admin / Manager**: email OTP via Amazon SES (`SES_ACCESS_KEY`, `SES_SECRET_KEY`, `SES_REGION`, `SES_FROM_EMAIL`).
+- Sessions are httpOnly signed cookies backed by the `sessions` D1 table.
+- CSRF tokens are required on all `/vedmata` POST actions.
+- Login endpoints are rate-limited via the `auth_attempts` table.
+
+**Test fixture:** migration `0002` seeds `manager.test@sevatirthbhorda.org` (manager role) for RBAC verification — remove before production launch.
+
+Local dev without real SES logs OTP codes to the `wrangler dev` console.
+
 
 | Binding | Resource | Config |
 |---|---|---|

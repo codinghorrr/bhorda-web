@@ -16,6 +16,10 @@ upload_source_maps = true
 enabled = true
 head_sampling_rate = 1
 
+[vars]
+SES_REGION = "ap-south-1"
+SES_FROM_EMAIL = "noreply@sevatirthbhorda.org"
+
 # Apex is the canonical host. www is bound so the Worker can 301 to apex.
 [[routes]]
 pattern = "sevatirthbhorda.org"

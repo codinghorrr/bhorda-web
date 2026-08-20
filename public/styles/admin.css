@@ -1,0 +1,250 @@
+/* Vedmata admin — brand palette aligned with public site */
+:root {
+	--gold: #d9a62e;
+	--turmeric: #a8690d;
+	--gold-tint: #fbefd1;
+	--ivory: #fdf8ed;
+	--ink: #2b211c;
+	--warm-grey: #6b5d4f;
+	--maroon: #7a2e22;
+	--white: #ffffff;
+	--font-sans: 'Noto Sans', system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body.admin-body {
+	margin: 0;
+	font-family: var(--font-sans);
+	color: var(--ink);
+	background: var(--ivory);
+	line-height: 1.5;
+}
+
+.admin-body--login {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	padding: 1.5rem;
+}
+
+.admin-login-card {
+	width: min(28rem, 100%);
+	padding: 2rem;
+	background: var(--white);
+	border: 1px solid color-mix(in srgb, var(--maroon) 30%, white);
+	border-radius: 0.75rem;
+	box-shadow: 0 0.5rem 1.5rem rgba(43, 33, 28, 0.08);
+}
+
+.admin-login-title {
+	margin: 0 0 0.25rem;
+	font-size: 1.5rem;
+}
+
+.admin-login-sub {
+	margin: 0 0 1.5rem;
+	color: var(--warm-grey);
+	font-size: 0.95rem;
+}
+
+.admin-shell {
+	display: grid;
+	grid-template-columns: 16rem 1fr;
+	min-height: 100vh;
+}
+
+.admin-sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1.25rem 1rem;
+	background: var(--white);
+	border-right: 1px solid var(--maroon);
+}
+
+.admin-brand-title {
+	margin: 0;
+	font-weight: 700;
+	font-size: 1.1rem;
+}
+
+.admin-brand-sub {
+	margin: 0.15rem 0 0;
+	font-size: 0.8rem;
+	color: var(--warm-grey);
+}
+
+.admin-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	flex: 1;
+}
+
+.admin-nav-link {
+	display: block;
+	padding: 0.45rem 0.6rem;
+	border-radius: 0.35rem;
+	color: var(--ink);
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.admin-nav-link:hover {
+	background: var(--gold-tint);
+}
+
+.admin-nav-link.is-active {
+	background: var(--gold-tint);
+	border-left: 3px solid var(--maroon);
+	padding-left: calc(0.6rem - 3px);
+}
+
+.admin-user {
+	border-top: 1px solid color-mix(in srgb, var(--warm-grey) 25%, white);
+	padding-top: 0.75rem;
+	font-size: 0.85rem;
+}
+
+.admin-user-email {
+	margin: 0;
+	font-weight: 600;
+	word-break: break-word;
+}
+
+.admin-user-role {
+	margin: 0.15rem 0 0.75rem;
+	color: var(--warm-grey);
+	text-transform: capitalize;
+}
+
+.admin-main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.admin-topbar {
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
+	background: color-mix(in srgb, var(--ivory) 70%, white);
+}
+
+.admin-page-title {
+	margin: 0;
+	font-size: 1.35rem;
+}
+
+.admin-content {
+	padding: 1.5rem;
+}
+
+.admin-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.admin-form--inline {
+	margin-top: 0.5rem;
+}
+
+.admin-label {
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.admin-input {
+	min-height: 2.5rem;
+	padding: 0.5rem 0.65rem;
+	border: 1px solid color-mix(in srgb, var(--warm-grey) 35%, white);
+	border-radius: 0.35rem;
+	font: inherit;
+}
+
+.admin-input:focus {
+	outline: 2px solid var(--gold);
+	outline-offset: 1px;
+}
+
+.admin-form-hint {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--warm-grey);
+}
+
+.admin-alert {
+	margin: 0 0 1rem;
+	padding: 0.65rem 0.75rem;
+	border-radius: 0.35rem;
+	font-size: 0.9rem;
+}
+
+.admin-alert--error {
+	background: #fdecea;
+	border: 1px solid #f5c2c0;
+}
+
+.admin-alert--info {
+	background: var(--gold-tint);
+	border: 1px solid color-mix(in srgb, var(--gold) 50%, white);
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.5rem;
+	padding: 0.5rem 1rem;
+	border-radius: 0.35rem;
+	border: 1px solid transparent;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.btn--gold {
+	background: var(--gold);
+	color: var(--ink);
+	border-color: color-mix(in srgb, var(--turmeric) 35%, var(--gold));
+}
+
+.btn--gold:hover {
+	background: color-mix(in srgb, var(--gold) 88%, white);
+}
+
+.btn--ghost {
+	background: transparent;
+	color: var(--turmeric);
+	border-color: color-mix(in srgb, var(--warm-grey) 30%, white);
+}
+
+.admin-placeholder-lead {
+	margin: 0 0 0.75rem;
+	max-width: 50ch;
+	color: var(--warm-grey);
+}
+
+.admin-placeholder-note {
+	margin: 0;
+	font-size: 0.875rem;
+	color: var(--warm-grey);
+}
+
+@media (max-width: 900px) {
+	.admin-shell {
+		grid-template-columns: 1fr;
+	}
+
+	.admin-sidebar {
+		border-right: none;
+		border-bottom: 1px solid var(--maroon);
+	}
+}

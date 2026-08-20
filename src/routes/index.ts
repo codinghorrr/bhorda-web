@@ -28,7 +28,7 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 	}
 
 	if (url.pathname === '/vedmata' || url.pathname.startsWith('/vedmata/')) {
-		return applySecurityHeaders(await handleAdmin(request, env, ctx));
+		return await handleAdmin(request, env, ctx);
 	}
 
 	if (url.pathname === '/api/newsletter/subscribe') {
