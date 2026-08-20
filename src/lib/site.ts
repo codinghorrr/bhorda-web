@@ -6,8 +6,9 @@ export const SITE_NAME_GU = 'ગાયત્રી કામધેનુ સે�
 export const SITE_ORIGIN = 'https://sevatirthbhorda.org';
 
 export type SiteCopy = {
-	siteName: string;
-	tagline: string;
+	brandLine1: string;
+	brandLine2: string;
+	brandLocation: string;
 	newsletterHeading: string;
 	newsletterPlaceholder: string;
 	newsletterButton: string;
@@ -28,6 +29,9 @@ export type SiteCopy = {
 const COPY: Record<Locale, SiteCopy> = {
 	en: {
 		siteName: SITE_NAME,
+		brandLine1: 'Gayatri Kamdhenu',
+		brandLine2: 'Sevatirth',
+		brandLocation: 'BHORDA',
 		tagline: 'Bhorda — seva, sadhana, and community',
 		newsletterHeading: 'Newsletter',
 		newsletterPlaceholder: 'Your email address',
@@ -47,6 +51,9 @@ const COPY: Record<Locale, SiteCopy> = {
 	},
 	gu: {
 		siteName: SITE_NAME_GU,
+		brandLine1: 'ગાયત્રી કામધેનુ',
+		brandLine2: 'સેવાતીર્થ',
+		brandLocation: 'ભોરડા',
 		tagline: 'ભોરડા — સેવા, સાધના અને સમુદાય',
 		newsletterHeading: 'ન્યૂઝલેટર',
 		newsletterPlaceholder: 'તમારું ઇમેઇલ સરનામું',

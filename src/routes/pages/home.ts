@@ -112,27 +112,36 @@ export async function renderHomePage(env: Env, locale: Locale, origin: string, u
 
 	const main = `<section class="hero" aria-labelledby="home-hero-title">
 	<div class="container hero-inner">
-		<p class="eyebrow">${escapeHtml(copy.tagline)}</p>
+		<p class="hero-om" aria-hidden="true">ॐ</p>
 		<h1 id="home-hero-title" class="hero-title">${escapeHtml(heroTitle.text)}</h1>
+		<span class="hero-rule" aria-hidden="true"></span>
 		<p class="hero-lead">${escapeHtml(heroLead.text)}</p>
 	</div>
 </section>
+
+<p class="highlights-band" aria-hidden="true">${locale === 'gu' ? 'ગૌશાળા · ગુરુકુલ · માવતર્ધામ · ભોરડા, ગુજરાત' : 'Gaushala · Gurukul · Mavtardham · Bhorda, Gujarat'}</p>
 
 <section class="section highlights" aria-labelledby="home-highlights-title">
 	<div class="container">
 		<h2 id="home-highlights-title" class="section-title">${locale === 'gu' ? 'મુખ્ય કેન્દ્રો' : 'Highlights'}</h2>
 		<div class="card-grid">
 			<article class="card">
+				<div class="card-icon" aria-hidden="true"></div>
 				<h3 class="card-title">${escapeHtml(fb.highlight_gaushala.title)}</h3>
 				<p>${escapeHtml(gaushala.text)}</p>
+				<span class="card-tag">${locale === 'gu' ? 'સ્થા. ૨૦૨૨' : 'Est. 2022'}</span>
 			</article>
 			<article class="card">
+				<div class="card-icon" aria-hidden="true"></div>
 				<h3 class="card-title">${escapeHtml(fb.highlight_gurukul.title)}</h3>
 				<p>${escapeHtml(gurukul.text)}</p>
+				<span class="card-tag">${locale === 'gu' ? 'સ્થા. ૨૦૧૬' : 'Est. 2016'}</span>
 			</article>
 			<article class="card">
+				<div class="card-icon" aria-hidden="true"></div>
 				<h3 class="card-title">${escapeHtml(fb.highlight_mavtardham.title)}</h3>
 				<p>${escapeHtml(mavtardham.text)}</p>
+				<span class="card-tag">${locale === 'gu' ? 'સ્થા. ૨૦૨૨' : 'Est. 2022'}</span>
 			</article>
 		</div>
 	</div>

@@ -59,11 +59,14 @@ export function renderPageShell(options: PageShellOptions): string {
 	<link rel="alternate" hreflang="en" href="${escapeHtml(enUrl)}" />
 	<link rel="alternate" hreflang="gu" href="${escapeHtml(guUrl)}" />
 	<link rel="alternate" hreflang="x-default" href="${escapeHtml(enUrl)}" />
+	<link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+	<link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png" />
+	<link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
-	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" /></noscript>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'" />
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" /></noscript>
 	<link rel="stylesheet" href="/styles/site.css" />
 	${headExtras}
 </head>

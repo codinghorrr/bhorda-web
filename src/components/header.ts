@@ -36,10 +36,11 @@ export function renderHeader({
 	return `<header class="site-header">
 	<div class="container header-inner">
 		<a class="brand" href="${escapeHtml(homeHref)}">
-			<span class="brand-mark" aria-hidden="true"></span>
+			<img class="brand-logo" src="/images/logo-badge.png" alt="" width="48" height="48" decoding="async" />
 			<span class="brand-text">
-				<span class="brand-name">${escapeHtml(copy.siteName)}</span>
-				<span class="brand-tagline">${escapeHtml(copy.tagline)}</span>
+				<span class="brand-name"><span class="brand-name__line">${escapeHtml(copy.brandLine1)}</span><span class="brand-name__line">${escapeHtml(copy.brandLine2)}</span></span>
+				<span class="brand-rule" aria-hidden="true"></span>
+				<span class="brand-location">${escapeHtml(copy.brandLocation)}</span>
 			</span>
 		</a>
 		<nav class="primary-nav" aria-label="${locale === 'gu' ? 'મુખ્ય નેવિગેશન' : 'Primary'}">

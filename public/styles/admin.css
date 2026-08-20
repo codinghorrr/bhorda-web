@@ -36,7 +36,7 @@ body.admin-body {
 	width: min(28rem, 100%);
 	padding: 2rem;
 	background: var(--white);
-	border: 1px solid color-mix(in srgb, var(--maroon) 30%, white);
+	border: 1px solid color-mix(in srgb, var(--gold) 35%, white);
 	border-radius: 0.75rem;
 	box-shadow: 0 0.5rem 1.5rem rgba(43, 33, 28, 0.08);
 }
@@ -64,7 +64,7 @@ body.admin-body {
 	gap: 1rem;
 	padding: 1.25rem 1rem;
 	background: var(--white);
-	border-right: 1px solid var(--maroon);
+	border-right: 1px solid color-mix(in srgb, var(--gold) 40%, white);
 }
 
 .admin-brand-title {
@@ -102,7 +102,7 @@ body.admin-body {
 
 .admin-nav-link.is-active {
 	background: var(--gold-tint);
-	border-left: 3px solid var(--maroon);
+	border-left: 3px solid var(--gold);
 	padding-left: calc(0.6rem - 3px);
 }
 
@@ -319,7 +319,7 @@ body.admin-body {
 }
 
 .admin-danger {
-	color: var(--maroon);
+	color: var(--turmeric);
 }
 
 .admin-row--handled {
@@ -358,6 +358,6 @@ body.admin-body {
 
 	.admin-sidebar {
 		border-right: none;
-		border-bottom: 1px solid var(--maroon);
+		border-bottom: 1px solid color-mix(in srgb, var(--gold) 40%, white);
 	}
 }

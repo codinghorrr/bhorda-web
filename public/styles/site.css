@@ -1,4 +1,4 @@
-/* Brand palette — PRD + locked palette */
+/* Brand palette v2 — Gayatri Kamdhenu Sevatirth (gold primary; maroon whisper only) */
 :root {
 	--gold: #d9a62e;
 	--turmeric: #a8690d;
@@ -6,11 +6,15 @@
 	--ivory: #fdf8ed;
 	--ink: #2b211c;
 	--warm-grey: #6b5d4f;
+	--body-muted: #4a3f33;
 	--maroon: #7a2e22;
+	--footer-gold: #e8c87a;
+	--white: #ffffff;
 
+	--font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
 	--font-sans: 'Noto Sans Gujarati', 'Noto Sans', system-ui, -apple-system, sans-serif;
 	--container: min(1120px, calc(100% - 2rem));
-	--header-height: 4.5rem;
+	--header-height: 4.75rem;
 }
 
 *,
@@ -33,6 +37,19 @@ body {
 	color: var(--ink);
 	background: var(--ivory);
 	text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+.hero-title,
+.page-title,
+.section-title,
+.cta-title,
+.card-title,
+.brand-name {
+	font-family: var(--font-serif);
+	font-weight: 700;
 }
 
 img,
@@ -94,9 +111,17 @@ a:hover {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	background: color-mix(in srgb, var(--ivory) 92%, white);
-	border-bottom: 1px solid var(--maroon);
+	background: color-mix(in srgb, var(--ivory) 94%, white);
+	border-bottom: 3px solid var(--gold);
+	box-shadow: 0 1px 0 color-mix(in srgb, var(--gold) 25%, transparent);
 	backdrop-filter: blur(8px);
+}
+
+.site-header::before {
+	content: '';
+	display: block;
+	height: 0.35rem;
+	background: var(--gold);
 }
 
 .header-inner {
@@ -117,25 +142,47 @@ a:hover {
 	min-width: 12rem;
 }
 
-.brand-mark {
-	width: 2.5rem;
-	height: 2.5rem;
-	border-radius: 999px;
-	background: radial-gradient(circle at 30% 30%, var(--gold-tint), var(--gold));
-	border: 1px solid var(--maroon);
+.brand-logo {
+	width: 3rem;
+	height: 3rem;
 	flex-shrink: 0;
+	object-fit: contain;
 }
 
 .brand-text {
 	display: flex;
 	flex-direction: column;
-	gap: 0.1rem;
+	gap: 0.15rem;
+	min-width: 0;
 }
 
 .brand-name {
-	font-weight: 700;
-	font-size: 0.95rem;
-	line-height: 1.2;
+	display: flex;
+	flex-direction: column;
+	font-size: 0.92rem;
+	line-height: 1.15;
+	letter-spacing: 0.01em;
+}
+
+.brand-name__line {
+	display: block;
+}
+
+.brand-rule {
+	display: block;
+	width: 2.25rem;
+	height: 2px;
+	background: color-mix(in srgb, var(--maroon) 55%, transparent);
+	border-radius: 1px;
+}
+
+.brand-location {
+	font-family: var(--font-sans);
+	font-size: 0.62rem;
+	font-weight: 600;
+	letter-spacing: 0.22em;
+	color: var(--warm-grey);
+	text-transform: uppercase;
 }
 
 .brand-tagline {
@@ -184,8 +231,8 @@ a:hover {
 	font-size: 0.875rem;
 	font-weight: 600;
 	text-decoration: none;
-	color: var(--maroon);
-	border: 1px solid var(--maroon);
+	color: var(--turmeric);
+	border: 1.5px solid var(--gold);
 	padding: 0.35rem 0.65rem;
 	border-radius: 999px;
 	white-space: nowrap;
@@ -193,6 +240,7 @@ a:hover {
 
 .lang-switch:hover {
 	background: var(--gold-tint);
+	color: var(--turmeric);
 }
 
 .newsletter-form {
@@ -269,7 +317,7 @@ a:hover {
 	margin: 0;
 	padding: 0.65rem 1rem;
 	background: var(--gold-tint);
-	border-bottom: 1px solid var(--maroon);
+	border-bottom: 1px solid color-mix(in srgb, var(--gold) 45%, white);
 	color: var(--ink);
 	font-size: 0.875rem;
 	text-align: center;
@@ -281,14 +329,30 @@ a:hover {
 
 /* Home */
 .hero {
-	background:
-		linear-gradient(135deg, color-mix(in srgb, var(--gold-tint) 80%, white), var(--ivory));
-	border-bottom: 1px solid color-mix(in srgb, var(--maroon) 35%, transparent);
+	background: var(--ivory);
+	border-bottom: 3px solid var(--gold);
+	text-align: center;
 }
 
 .hero-inner {
 	padding-block: clamp(2.5rem, 6vw, 4.5rem);
 	min-height: 16rem;
+}
+
+.hero-om {
+	margin: 0 0 0.35rem;
+	font-size: clamp(1.75rem, 4vw, 2rem);
+	line-height: 1;
+	color: var(--gold);
+}
+
+.hero-rule {
+	display: block;
+	width: 2.85rem;
+	height: 2px;
+	margin: 0.65rem auto 1rem;
+	background: color-mix(in srgb, var(--maroon) 55%, transparent);
+	border-radius: 1px;
 }
 
 .eyebrow {
@@ -302,17 +366,17 @@ a:hover {
 
 .hero-title {
 	margin: 0 0 0.75rem;
-	max-width: 18ch;
+	max-width: 22ch;
+	margin-inline: auto;
 	font-size: clamp(1.75rem, 4vw, 2.75rem);
 	line-height: 1.15;
-	font-weight: 700;
 }
 
 .hero-lead {
-	margin: 0;
-	max-width: 52ch;
+	margin: 0 auto;
+	max-width: 42ch;
 	font-size: clamp(1rem, 2vw, 1.125rem);
-	color: var(--warm-grey);
+	color: var(--body-muted);
 }
 
 .section {
@@ -334,16 +398,48 @@ a:hover {
 
 .card {
 	padding: 1rem 1.1rem;
-	background: white;
+	background: var(--white);
 	border: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
 	border-top: 3px solid var(--gold);
 	border-radius: 0.5rem;
 	min-height: 8rem;
 }
 
+.card-icon {
+	width: 2.125rem;
+	height: 2.125rem;
+	margin-bottom: 0.65rem;
+	border-radius: 50%;
+	background: var(--gold-tint);
+	border: 1.5px solid var(--gold);
+}
+
+.card-tag {
+	display: inline-block;
+	margin-top: 0.5rem;
+	font-family: var(--font-sans);
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	color: color-mix(in srgb, var(--maroon) 65%, transparent);
+	text-transform: uppercase;
+}
+
 .card-title {
 	margin: 0 0 0.5rem;
 	font-size: 1.05rem;
+}
+
+.highlights-band {
+	padding: 1.35rem 1rem;
+	background: var(--gold-tint);
+	color: color-mix(in srgb, var(--turmeric) 85%, var(--ink));
+	font-family: var(--font-sans);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	text-align: center;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
 .updates-teaser,
@@ -357,7 +453,7 @@ a:hover {
 .cta-panel {
 	padding: clamp(1.25rem, 3vw, 2rem);
 	background: linear-gradient(180deg, white, var(--gold-tint));
-	border: 1px solid color-mix(in srgb, var(--maroon) 25%, transparent);
+	border: 1px solid color-mix(in srgb, var(--gold) 35%, white);
 	border-radius: 0.75rem;
 }
 
@@ -373,8 +469,9 @@ a:hover {
 /* Footer */
 .site-footer {
 	margin-top: 2rem;
-	background: white;
-	border-top: 1px solid var(--maroon);
+	background: var(--ink);
+	color: var(--footer-gold);
+	border-top: 3px solid var(--gold);
 }
 
 .footer-grid {
@@ -387,36 +484,51 @@ a:hover {
 .footer-heading {
 	margin: 0 0 0.5rem;
 	font-size: 1rem;
+	color: var(--footer-gold);
 }
 
 .footer-text {
 	margin: 0 0 0.5rem;
-	color: var(--warm-grey);
+	color: color-mix(in srgb, var(--footer-gold) 82%, white);
 	font-size: 0.925rem;
 }
 
 .footer-socials a {
 	font-weight: 600;
+	color: var(--footer-gold);
 }
 
 .footer-sep {
 	margin-inline: 0.35rem;
-	color: var(--warm-grey);
+	color: color-mix(in srgb, var(--footer-gold) 60%, transparent);
 }
 
 .footer-bottom {
 	padding-block: 1rem 1.5rem;
-	border-top: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
+	border-top: 1px solid color-mix(in srgb, var(--footer-gold) 22%, transparent);
 }
 
 .footer-rights {
 	margin: 0;
 	font-size: 0.8125rem;
-	color: var(--warm-grey);
+	color: color-mix(in srgb, var(--footer-gold) 75%, white);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
 }
 
 .lang-switch--footer {
 	display: inline-block;
+	color: var(--footer-gold);
+	border-color: color-mix(in srgb, var(--footer-gold) 65%, transparent);
+}
+
+.lang-switch--footer:hover {
+	background: color-mix(in srgb, var(--footer-gold) 12%, transparent);
+	color: white;
+}
+
+.newsletter-coming-soon {
+	color: color-mix(in srgb, var(--footer-gold) 70%, white);
 }
 
 @media (max-width: 900px) {
@@ -565,7 +677,7 @@ a:hover {
 }
 
 .section-title--spotlight {
-	color: var(--maroon);
+	color: var(--turmeric);
 	font-size: 1.5rem;
 }
 
@@ -609,6 +721,7 @@ a:hover {
 	padding: 1.25rem;
 	background: var(--white);
 	border: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
+	border-top: 3px solid var(--gold);
 	border-radius: 0.5rem;
 }
 
@@ -674,7 +787,8 @@ a:hover {
 }
 
 .event-card--spotlight {
-	border-color: color-mix(in srgb, var(--maroon) 25%, white);
+	border-color: color-mix(in srgb, var(--gold) 45%, white);
+	box-shadow: 0 0.15rem 0.75rem rgba(217, 166, 46, 0.12);
 }
 
 .event-card__link {
@@ -738,7 +852,8 @@ a:hover {
 }
 
 .schedule-day th {
-	background: color-mix(in srgb, var(--maroon) 8%, var(--gold-tint));
+	background: color-mix(in srgb, var(--turmeric) 12%, var(--gold-tint));
+	color: var(--turmeric);
 	text-align: left;
 }
 
@@ -880,7 +995,7 @@ a:hover {
 
 .timeline__year {
 	font-weight: 700;
-	color: var(--maroon);
+	color: var(--turmeric);
 	min-width: 3.5rem;
 }
 
@@ -988,7 +1103,7 @@ a:hover {
 	display: block;
 	font-size: 1.5rem;
 	font-weight: 700;
-	color: var(--maroon);
+	color: var(--gold);
 }
 
 .stat-card__label {
