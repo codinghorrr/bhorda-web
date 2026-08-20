@@ -115,3 +115,26 @@ Regenerate TypeScript bindings after any Wrangler config change:
 ```bash
 npm run cf-typegen
 ```
+
+## Cloud Agent environment
+
+Repository-managed setup lives in [`.cursor/environment.json`](./.cursor/environment.json):
+
+- **install**: `scripts/cloud-agent-install.sh` — `npm ci`, typegen, local D1 migrations
+- **terminals**: `npm run dev` (Wrangler on port 8787)
+
+Add these secrets in the Cursor Cloud Agent environment settings (not in git):
+
+| Secret | Purpose |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | Wrangler deploy and remote D1 migrations from agents |
+| `SUPERADMIN_PASSWORD` | Local/preview superadmin login |
+| `SES_ACCESS_KEY` / `SES_SECRET_KEY` | OTP email (local dev logs OTP when unset) |
+| `SENDY_URL` / `SENDY_LIST_ID` | Newsletter form |
+| `GA4_ID` | Analytics reference |
+
+Production deploy from an agent with `CLOUDFLARE_API_TOKEN` set:
+
+```bash
+bash scripts/production-deploy.sh
+```

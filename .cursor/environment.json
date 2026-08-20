@@ -1,0 +1,10 @@
+{
+	"name": "Sevatirth Bhorda",
+	"install": "bash scripts/cloud-agent-install.sh",
+	"terminals": [
+		{
+			"name": "wrangler-dev",
+			"command": "npm run dev"
+		}
+	]
+}
