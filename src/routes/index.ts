@@ -5,11 +5,12 @@ import { resolveI18n } from '../lib/i18n';
 import { siteCopy } from '../lib/site';
 import { applySecurityHeaders } from '../lib/security';
 import { tryServeStaticAsset } from './assets';
+import { handleFormSubmit } from './forms';
 import { handleHealth } from './health';
 import { handleMedia } from './media';
 import { handleNewsletterSubscribe } from './newsletter';
-import { renderGalleryAudioIndex, renderGalleryAudioTrack } from './pages/gallery-audio';
 import { renderHomePage } from './pages/home';
+import { renderPublicPage } from './public-pages';
 import { redirectWwwToApex } from './www';
 
 function requestOrigin(request: Request): string {
@@ -35,6 +36,10 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 
 	if (url.pathname === '/api/newsletter/subscribe') {
 		return applySecurityHeaders(await handleNewsletterSubscribe(request));
+	}
+
+	if (url.pathname === '/api/forms/submit') {
+		return await handleFormSubmit(request, env);
 	}
 
 	const mediaResponse = await handleMedia(request, env);
@@ -68,23 +73,12 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 		return applySecurityHeaders(htmlResponse(html, { locale }));
 	}
 
-	if (pathname === '/gallery/audio') {
-		const html = await renderGalleryAudioIndex(env, locale, origin);
-		return applySecurityHeaders(htmlResponse(html, { locale }));
-	}
-
-	const audioTrackMatch = /^\/gallery\/audio\/([^/]+)$/.exec(pathname);
-	if (audioTrackMatch) {
-		const html = await renderGalleryAudioTrack(env, locale, origin, audioTrackMatch[1]!);
-		if (!html) {
-			const copy = siteCopy(locale);
-			const notFound = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody);
-			return applySecurityHeaders(htmlResponse(notFound, { status: 404, locale }));
-		}
+	const html = await renderPublicPage(env, locale, pathname, origin, url);
+	if (html) {
 		return applySecurityHeaders(htmlResponse(html, { locale }));
 	}
 
 	const copy = siteCopy(locale);
-	const html = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody);
-	return applySecurityHeaders(htmlResponse(html, { status: 404, locale }));
+	const notFound = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody);
+	return applySecurityHeaders(htmlResponse(notFound, { status: 404, locale }));
 }

@@ -1,4 +1,4 @@
-export type RateLimitScope = 'otp_request' | 'otp_verify' | 'password_login';
+export type RateLimitScope = 'otp_request' | 'otp_verify' | 'password_login' | 'form_submit';
 
 const WINDOW_MINUTES = 15;
 const MAX_ATTEMPTS = 5;

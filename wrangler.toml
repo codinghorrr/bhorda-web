@@ -45,7 +45,10 @@ migrations_dir = "migrations"
 binding = "MEDIA"
 bucket_name = "sevatirth-bhorda-media"
 
-# Declared Worker secrets — values are never stored here.
+[triggers]
+crons = ["0 6 * * *"]
+
+# Declared Worker secrets
 # Set each one with: wrangler secret put <NAME>
 # Local values go in .env (see .env.example). Do not commit real values.
 [secrets]

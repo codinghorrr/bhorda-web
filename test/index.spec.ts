@@ -94,7 +94,7 @@ describe('i18n routing', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 
-		expect(response.status).toBe(404);
+		expect(response.status).toBe(200);
 		const html = await response.text();
 		expect(html).toContain('href="/gu/about"');
 	});
