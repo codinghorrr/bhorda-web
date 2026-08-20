@@ -421,3 +421,99 @@ a:hover {
 		width: auto;
 	}
 }
+
+/* Audio gallery player */
+.page-gallery-audio .page-back {
+	margin: 0 0 1rem;
+}
+
+.audio-index {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.audio-index__item {
+	padding: 0.75rem 1rem;
+	background: var(--white);
+	border: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
+	border-radius: 0.35rem;
+}
+
+.audio-index__link {
+	font-weight: 700;
+	text-decoration: none;
+	color: var(--ink);
+}
+
+.audio-index__link:hover {
+	color: var(--turmeric);
+}
+
+.audio-index__composer,
+.audio-index__playlist {
+	display: block;
+	margin-top: 0.25rem;
+	font-size: 0.9rem;
+	color: var(--warm-grey);
+}
+
+.audio-player {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+	align-items: start;
+}
+
+.audio-player__title {
+	margin: 0 0 0.25rem;
+	font-size: 1.5rem;
+}
+
+.audio-player__composer {
+	margin: 0 0 0.75rem;
+	color: var(--warm-grey);
+}
+
+.audio-player__description {
+	margin: 0 0 1rem;
+}
+
+.audio-player__element {
+	width: 100%;
+	margin: 0 0 0.75rem;
+}
+
+.audio-player__actions {
+	margin: 0;
+}
+
+.audio-lyrics {
+	margin: 0 0 1.25rem;
+}
+
+.audio-lyrics__heading {
+	margin: 0 0 0.5rem;
+	font-size: 1rem;
+}
+
+.audio-lyrics__body {
+	padding: 1rem;
+	background: var(--white);
+	border: 1px solid color-mix(in srgb, var(--warm-grey) 20%, white);
+	border-radius: 0.35rem;
+	line-height: 1.7;
+}
+
+.audio-lyrics__body--gu {
+	font-family: 'Noto Sans Gujarati', 'Noto Sans', system-ui, sans-serif;
+}
+
+@media (max-width: 768px) {
+	.audio-player {
+		grid-template-columns: 1fr;
+	}
+}

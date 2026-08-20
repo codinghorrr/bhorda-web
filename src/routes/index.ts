@@ -6,7 +6,9 @@ import { siteCopy } from '../lib/site';
 import { applySecurityHeaders } from '../lib/security';
 import { tryServeStaticAsset } from './assets';
 import { handleHealth } from './health';
+import { handleMedia } from './media';
 import { handleNewsletterSubscribe } from './newsletter';
+import { renderGalleryAudioIndex, renderGalleryAudioTrack } from './pages/gallery-audio';
 import { renderHomePage } from './pages/home';
 import { redirectWwwToApex } from './www';
 
@@ -35,6 +37,11 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 		return applySecurityHeaders(await handleNewsletterSubscribe(request));
 	}
 
+	const mediaResponse = await handleMedia(request, env);
+	if (mediaResponse) {
+		return applySecurityHeaders(mediaResponse);
+	}
+
 	const staticAsset = await tryServeStaticAsset(request, env);
 	if (staticAsset) {
 		return applySecurityHeaders(staticAsset);
@@ -58,6 +65,22 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 
 	if (pathname === '/') {
 		const html = await renderHomePage(env, locale, origin);
+		return applySecurityHeaders(htmlResponse(html, { locale }));
+	}
+
+	if (pathname === '/gallery/audio') {
+		const html = await renderGalleryAudioIndex(env, locale, origin);
+		return applySecurityHeaders(htmlResponse(html, { locale }));
+	}
+
+	const audioTrackMatch = /^\/gallery\/audio\/([^/]+)$/.exec(pathname);
+	if (audioTrackMatch) {
+		const html = await renderGalleryAudioTrack(env, locale, origin, audioTrackMatch[1]!);
+		if (!html) {
+			const copy = siteCopy(locale);
+			const notFound = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody);
+			return applySecurityHeaders(htmlResponse(notFound, { status: 404, locale }));
+		}
 		return applySecurityHeaders(htmlResponse(html, { locale }));
 	}
 

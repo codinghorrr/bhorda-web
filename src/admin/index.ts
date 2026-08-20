@@ -7,8 +7,47 @@ import {
 	handleOtpVerify,
 	handleSuperadminLogin,
 } from './auth-handlers';
+import { handleEventsRoutes } from './handlers/events';
+import { handleGalleryRoutes } from './handlers/gallery';
+import { handlePageTextRoutes } from './handlers/page-text';
+import { handleScheduleRoutes } from './handlers/schedule';
+import { handleStallRoutes } from './handlers/stall';
+import { handleSubmissionsRoutes } from './handlers/submissions';
 import { renderAdminHome, renderAdminSection } from './pages';
+import { canAccessSection, navItemsForRole, sectionFromPath } from './rbac';
 import { adminHtmlResponse } from './security';
+import { createSignedCsrfToken, renderAdminLayout, renderForbiddenPage, renderNavLinks } from './templates';
+
+type ContentHandler = (
+	request: Request,
+	env: Env,
+	session: Awaited<ReturnType<typeof getAuthSession>> & object,
+	pathname: string,
+) => Promise<Response | null>;
+
+const CONTENT_HANDLERS: ContentHandler[] = [
+	handleEventsRoutes,
+	handleScheduleRoutes,
+	handleGalleryRoutes,
+	handleStallRoutes,
+	handlePageTextRoutes,
+	handleSubmissionsRoutes,
+];
+
+async function renderForbidden(request: Request, env: Env, session: NonNullable<Awaited<ReturnType<typeof getAuthSession>>>, pathname: string): Promise<Response> {
+	const csrfToken = await createSignedCsrfToken(env);
+	const nav = navItemsForRole(session.role);
+	const html = renderAdminLayout({
+		title: 'Access denied',
+		activePath: pathname,
+		email: session.email,
+		role: session.role,
+		navHtml: renderNavLinks(nav, pathname),
+		content: renderForbiddenPage(),
+		csrfToken,
+	});
+	return adminHtmlResponse(html, { status: 403 });
+}
 
 export async function handleAdmin(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
 	const url = new URL(request.url);
@@ -48,6 +87,18 @@ export async function handleAdmin(request: Request, env: Env, _ctx: ExecutionCon
 			return adminHtmlResponse('Method Not Allowed', { status: 405 });
 		}
 		return renderAdminHome(env, session);
+	}
+
+	const section = sectionFromPath(pathname);
+	if (section && !canAccessSection(session.role, section)) {
+		return renderForbidden(request, env, session, pathname);
+	}
+
+	for (const handler of CONTENT_HANDLERS) {
+		const response = await handler(request, env, session, pathname);
+		if (response) {
+			return response;
+		}
 	}
 
 	if (request.method !== 'GET') {
