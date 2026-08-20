@@ -32,7 +32,8 @@ export function sendySubscribeUrl(env: Env): string | null {
 	if (!isNewsletterConfigured(env)) {
 		return null;
 	}
-	const base = env.SENDY_URL.trim().replace(/\/+$/, '');
+	const sendyUrl = env.SENDY_URL ?? '';
+	const base = sendyUrl.trim().replace(/\/+$/, '');
 	return `${base}/subscribe`;
 }
 
@@ -45,9 +46,10 @@ export async function subscribeViaSendy(env: Env, email: string): Promise<SendyS
 		return 'error';
 	}
 
+	const listId = env.SENDY_LIST_ID ?? '';
 	const body = new URLSearchParams({
 		email,
-		list: env.SENDY_LIST_ID.trim(),
+		list: listId.trim(),
 		boolean: 'true',
 	});
 

@@ -51,14 +51,19 @@ Migration `0007_remove_test_manager.sql` removes the development-only `manager.t
 
 ## Worker secrets
 
-Secrets are declared in `wrangler.toml` under `[secrets].required`. Do not put values in the Wrangler file or in git.
+Secrets enforced at deploy time are listed in `wrangler.toml` under `[secrets].required`. Do not put values in the Wrangler file or in git.
 
-Set each production secret:
+Set **required** production secrets before the first deploy:
 
 ```bash
 npx wrangler secret put SUPERADMIN_PASSWORD
 npx wrangler secret put SES_ACCESS_KEY
 npx wrangler secret put SES_SECRET_KEY
+```
+
+Optional integrations (set when ready — the site works without them):
+
+```bash
 npx wrangler secret put SENDY_URL
 npx wrangler secret put SENDY_LIST_ID
 npx wrangler secret put GA4_ID
@@ -84,7 +89,7 @@ Local values belong in `.env` (copied from `.env.example`). Wrangler also accept
 - `sevatirthbhorda.org` (apex, canonical)
 - `www.sevatirthbhorda.org` (Worker issues a 301 to the apex)
 
-The zone must already sit on the same Cloudflare account. Deploy after secrets and the D1 id are in place:
+The zone must already sit on the same Cloudflare account. Deploy after the **required** secrets and the D1 id are in place:
 
 ```bash
 npx wrangler types
@@ -132,8 +137,8 @@ Add these secrets in the Cursor Cloud Agent environment settings (not in git):
 | `CLOUDFLARE_API_TOKEN` | Wrangler deploy and remote D1 migrations from agents |
 | `SUPERADMIN_PASSWORD` | Local/preview superadmin login |
 | `SES_ACCESS_KEY` / `SES_SECRET_KEY` | OTP email (local dev logs OTP when unset) |
-| `SENDY_URL` / `SENDY_LIST_ID` | Newsletter form |
-| `GA4_ID` | Analytics reference |
+| `SENDY_URL` / `SENDY_LIST_ID` | Newsletter form (optional) |
+| `GA4_ID` | Analytics reference (optional) |
 
 Production deploy from an agent with `CLOUDFLARE_API_TOKEN` set:
 

@@ -58,7 +58,4 @@ required = [
 	"SUPERADMIN_PASSWORD",
 	"SES_ACCESS_KEY",
 	"SES_SECRET_KEY",
-	"SENDY_URL",
-	"SENDY_LIST_ID",
-	"GA4_ID",
 ]
