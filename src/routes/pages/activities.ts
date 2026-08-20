@@ -35,7 +35,7 @@ function activitiesNav(locale: Locale, pathname: string): string {
 	]);
 }
 
-export async function renderActivitiesHub(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderActivitiesHub(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const base = localizedPath(locale, '/activities');
 	const cards = [
@@ -59,10 +59,12 @@ ${activitiesNav(locale, '/activities')}
 		title: `${locale === 'gu' ? 'પ્રવૃત્તિઓ' : 'Activities'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderSanskarasIndex(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderSanskarasIndex(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const base = localizedPath(locale, '/activities/sanskaras');
 	const list = SANSKAR_PAGES.map(
@@ -82,6 +84,8 @@ ${activitiesNav(locale, '/activities/sanskaras')}
 		title: `${locale === 'gu' ? 'સંસ્કાર' : 'Sanskaras'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
@@ -141,6 +145,8 @@ ${content.bodyHtml}
 		origin,
 		main,
 		translationPending: content.translationPending,
+		env,
+		url,
 	});
 }
 
@@ -225,5 +231,7 @@ ${extra}
 		origin,
 		main,
 		translationPending: content.translationPending,
+		env,
+		url,
 	});
 }

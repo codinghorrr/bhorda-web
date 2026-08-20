@@ -94,7 +94,7 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 	let html: string | null = null;
 
 	if (pathname === '/') {
-		html = await renderHomePage(env, locale, origin);
+		html = await renderHomePage(env, locale, origin, url);
 	} else {
 		html = await renderPublicPage(env, locale, pathname, origin, url);
 	}
@@ -106,7 +106,7 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 	}
 
 	const copy = siteCopy(locale);
-	const notFound = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody);
+	const notFound = renderSimplePage(locale, pathname, origin, copy.notFoundTitle, copy.notFoundBody, env, url);
 	const notFoundHtml = await injectAnalyticsHead(env, notFound);
 	return applySecurityHeaders(htmlResponse(notFoundHtml, { status: 404, locale }));
 }

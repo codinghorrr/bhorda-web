@@ -7,9 +7,16 @@ import { escapeHtml } from '../lib/html';
 export type HeaderOptions = {
 	locale: Locale;
 	pathname: string;
+	newsletterAvailable?: boolean;
+	newsletterNotice?: string | null;
 };
 
-export function renderHeader({ locale, pathname }: HeaderOptions): string {
+export function renderHeader({
+	locale,
+	pathname,
+	newsletterAvailable = false,
+	newsletterNotice = null,
+}: HeaderOptions): string {
 	const copy = siteCopy(locale);
 	const otherLocale = alternateLocale(locale);
 	const switchHref = localizedPath(otherLocale, pathname);
@@ -21,6 +28,10 @@ export function renderHeader({ locale, pathname }: HeaderOptions): string {
 		const classes = active ? 'nav-link is-active' : 'nav-link';
 		return `<li><a class="${classes}" href="${escapeHtml(href)}"${active ? ' aria-current="page"' : ''}>${escapeHtml(item.labels[locale])}</a></li>`;
 	}).join('');
+
+	const notice = newsletterNotice
+		? `<p class="newsletter-notice" role="status">${escapeHtml(newsletterNotice)}</p>`
+		: '';
 
 	return `<header class="site-header">
 	<div class="container header-inner">
@@ -36,14 +47,20 @@ export function renderHeader({ locale, pathname }: HeaderOptions): string {
 		</nav>
 		<div class="header-tools">
 			<a class="lang-switch" href="${escapeHtml(switchHref)}" hreflang="${otherLocale}" lang="${otherLocale}">${escapeHtml(copy.switchTo)}</a>
-			${renderNewsletterForm(locale, 'header')}
+			${notice}
+			${renderNewsletterForm(locale, 'header', newsletterAvailable)}
 		</div>
 	</div>
 </header>`;
 }
 
-export function renderNewsletterForm(locale: Locale, variant: 'header' | 'footer'): string {
+export function renderNewsletterForm(locale: Locale, variant: 'header' | 'footer', available = false): string {
 	const copy = siteCopy(locale);
+
+	if (!available) {
+		return `<p class="newsletter-coming-soon">${escapeHtml(copy.newsletterComingSoon)}</p>`;
+	}
+
 	const action = '/api/newsletter/subscribe';
 	const idPrefix = variant === 'header' ? 'header' : 'footer';
 

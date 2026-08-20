@@ -73,6 +73,8 @@ ${photoGrid ? `<section class="section"><h2 class="section-title">${escapeHtml(u
 		origin,
 		main,
 		translationPending: content.translationPending,
+		env,
+		url,
 	});
 }
 

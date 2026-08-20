@@ -202,6 +202,24 @@ a:hover {
 	align-items: center;
 }
 
+.newsletter-coming-soon {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--warm-grey);
+	max-width: 12rem;
+	line-height: 1.35;
+}
+
+.newsletter-notice {
+	margin: 0 0 0.35rem;
+	padding: 0.35rem 0.5rem;
+	font-size: 0.8rem;
+	background: var(--gold-tint);
+	border-radius: 0.25rem;
+	color: var(--ink);
+	max-width: 18rem;
+}
+
 .newsletter-form--header .newsletter-input {
 	width: min(12rem, 40vw);
 }

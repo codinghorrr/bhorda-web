@@ -89,7 +89,8 @@ describe('i18n routing', () => {
 		expect(response.status).toBe(200);
 		const html = await response.text();
 		expect(html).toContain('lang="gu"');
-		expect(html).toContain('ગાયત્રી કામધેનુ સેવાતીર્થમાં');
+		expect(html).toContain('translation-banner');
+		expect(html).toContain('Welcome to Gayatri Kamdhenu Sevatirth');
 		expect(html).toContain('href="/en"');
 	});
 
@@ -105,18 +106,33 @@ describe('i18n routing', () => {
 	});
 });
 
-describe('newsletter stub', () => {
-	it('accepts a valid email POST', async () => {
+describe('newsletter subscribe', () => {
+	it('redirects when Sendy is not configured (coming soon)', async () => {
 		const request = new IncomingRequest('http://example.com/api/newsletter/subscribe', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Referer: 'http://example.com/en',
+			},
 			body: 'email=test@example.com&locale=en',
 		});
 		const ctx = createExecutionContext();
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 
-		expect(response.status).toBe(204);
-		expect(response.headers.get('X-Newsletter-Stub')).toBe('pending-sendy-integration');
+		expect(response.status).toBe(303);
+		const location = response.headers.get('Location') ?? '';
+		expect(location).toContain('newsletter=unavailable');
+	});
+
+	it('shows coming soon instead of form when Sendy is not configured', async () => {
+		const request = new IncomingRequest('http://example.com/en');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		const html = await response.text();
+		expect(html).toContain('newsletter-coming-soon');
+		expect(html).not.toContain('action="/api/newsletter/subscribe"');
 	});
 });

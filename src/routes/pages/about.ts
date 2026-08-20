@@ -66,6 +66,7 @@ export async function renderAboutPage(
 	locale: Locale,
 	pathname: string,
 	origin: string,
+	url: URL,
 ): Promise<string | null> {
 	const copy = siteCopy(locale);
 	const subNav = aboutSubNav(locale, pathname);
@@ -99,6 +100,8 @@ ${pageHeading(content.title)}
 			origin,
 			main,
 			translationPending: content.translationPending,
+			env,
+			url,
 		});
 	}
 
@@ -124,6 +127,8 @@ ${renderTimeline(timeline, locale)}
 			origin,
 			main,
 			translationPending: content.translationPending,
+			env,
+			url,
 		});
 	}
 
@@ -156,5 +161,7 @@ ${content.bodyHtml}
 		origin,
 		main,
 		translationPending: content.translationPending,
+		env,
+		url,
 	});
 }

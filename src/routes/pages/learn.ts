@@ -97,7 +97,7 @@ function renderResourceList(items: ResourceItem[], locale: Locale): string {
 		.join('')}</ul>`;
 }
 
-export async function renderLearnHub(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderLearnHub(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const base = localizedPath(locale, '/learn');
 	const main = `<div class="container page-learn">
@@ -116,10 +116,12 @@ ${learnNav(locale, '/learn')}
 		title: `${locale === 'gu' ? 'શીખો' : 'Learn'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderLearnDownloads(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderLearnDownloads(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const items = await loadResourceList(env.DB, 'learn', 'downloads', locale, DEFAULT_DOWNLOADS[locale]);
 
@@ -135,10 +137,12 @@ ${renderResourceList(items, locale)}
 		title: `${locale === 'gu' ? 'ડાઉનલોડ' : 'Downloads'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderLearnReading(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderLearnReading(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const links = await loadResourceList(env.DB, 'learn', 'reading_links', locale, DEFAULT_READING_LINKS[locale]);
 	const ebooks = await loadResourceList(env.DB, 'learn', 'ebooks', locale, DEFAULT_EBOOKS[locale]);
@@ -161,10 +165,12 @@ ${ebookSection}
 		title: `${locale === 'gu' ? 'વાંચન' : 'Reading'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderLearnLinks(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderLearnLinks(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const items = await loadResourceList(env.DB, 'learn', 'useful_links', locale, DEFAULT_USEFUL_LINKS[locale]);
 
@@ -180,5 +186,7 @@ ${renderResourceList(items, locale)}
 		title: `${locale === 'gu' ? 'લિંક્સ' : 'Links'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }

@@ -59,7 +59,7 @@ function galleryNav(locale: Locale, pathname: string): string {
 	return `<nav class="subnav" aria-label="Gallery">${links}</nav>`;
 }
 
-export async function renderGalleryHub(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderGalleryHub(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const base = localizedPath(locale, '/gallery');
 	const main = `<div class="container page-gallery">
@@ -78,6 +78,8 @@ ${galleryNav(locale, '/gallery')}
 		title: `${locale === 'gu' ? 'ગેલેરી' : 'Gallery'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
@@ -86,6 +88,7 @@ export async function renderGalleryPhotos(
 	locale: Locale,
 	origin: string,
 	filterTag: string,
+	url: URL,
 ): Promise<string> {
 	const ui = uiCopy(locale);
 	const copy = siteCopy(locale);
@@ -127,10 +130,12 @@ ${galleryNav(locale, '/gallery/photos')}
 		title: `${locale === 'gu' ? 'ફોટા' : 'Photos'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderGalleryAudioIndex(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderGalleryAudioIndex(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const ui = uiCopy(locale);
 	const copy = siteCopy(locale);
 	const rows = await env.DB.prepare('SELECT * FROM gallery_audio ORDER BY title_en').all<AudioRow>();
@@ -159,6 +164,8 @@ ${items ? `<ul class="audio-index">${items}</ul>` : `<p class="empty-state">${lo
 		title: `${locale === 'gu' ? 'ઑડિયો' : 'Audio'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
@@ -167,6 +174,7 @@ export async function renderGalleryAudioTrack(
 	locale: Locale,
 	origin: string,
 	trackId: string,
+	url: URL,
 ): Promise<string | null> {
 	const ui = uiCopy(locale);
 	const copy = siteCopy(locale);
@@ -198,10 +206,12 @@ ${player}
 		title: `${title} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
-export async function renderGalleryVideos(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderGalleryVideos(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const ui = uiCopy(locale);
 	const copy = siteCopy(locale);
 	const rows = await env.DB.prepare('SELECT * FROM gallery_video ORDER BY title_en').all<VideoRow>();
@@ -238,5 +248,7 @@ ${galleryNav(locale, '/gallery/videos')}
 		title: `${locale === 'gu' ? 'વિડિયો' : 'Videos'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }

@@ -12,6 +12,10 @@ export type SiteCopy = {
 	newsletterPlaceholder: string;
 	newsletterButton: string;
 	newsletterHint: string;
+	newsletterComingSoon: string;
+	newsletterSuccess: string;
+	newsletterAlready: string;
+	newsletterError: string;
 	contactHeading: string;
 	contactSummary: string;
 	switchTo: string;
@@ -29,6 +33,10 @@ const COPY: Record<Locale, SiteCopy> = {
 		newsletterPlaceholder: 'Your email address',
 		newsletterButton: 'Subscribe',
 		newsletterHint: 'Updates from Sevatirth Bhorda. No payment links.',
+		newsletterComingSoon: 'Newsletter signup coming soon.',
+		newsletterSuccess: 'Thank you — please check your email to confirm your subscription.',
+		newsletterAlready: 'This email is already on our list.',
+		newsletterError: 'We could not subscribe that address. Please try again later.',
 		contactHeading: 'Visit & connect',
 		contactSummary: 'Gayatri Kamdhenu Sevatirth, Bhorda, Gujarat',
 		switchTo: 'ગુજરાતી',
@@ -44,6 +52,10 @@ const COPY: Record<Locale, SiteCopy> = {
 		newsletterPlaceholder: 'તમારું ઇમેઇલ સરનામું',
 		newsletterButton: 'સબ્સ્ક્રાઇબ',
 		newsletterHint: 'સેવાતીર્થ ભોરડાથી અપડેટ્સ. કોઈ ચુકવણી લિંક નહીં.',
+		newsletterComingSoon: 'ન્યૂઝલેટર સબ્સ્ક્રિપ્શન ટૂંક સમયમાં ઉપલબ્ધ થશે.',
+		newsletterSuccess: 'આભાર — કૃપા કરીને તમારું સબ્સ્ક્રિપ્શન પુષ્ટિ કરવા ઇમેઇલ તપાસો.',
+		newsletterAlready: 'આ ઇમેઇલ પહેલેથી અમારી યાદીમાં છે.',
+		newsletterError: 'આ સરનામું સબ્સ્ક્રાઇબ કરી શકાયું નથી. કૃપા કરીને ફરી પ્રયાસ કરો.',
 		contactHeading: 'મુલાકાત અને સંપર્ક',
 		contactSummary: 'ગાયત્રી કામધેનુ સેવાતીર્થ, ભોરડા, ગુજરાત',
 		switchTo: 'English',

@@ -85,7 +85,7 @@ function pickText(
 	return { text: fallback, pending: false };
 }
 
-export async function renderHomePage(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderHomePage(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	const copy = siteCopy(locale);
 	const fb = FALLBACK[locale];
 	const blocks = await getPageTexts(env.DB, 'home', HOME_BLOCKS, locale);
@@ -160,5 +160,7 @@ export async function renderHomePage(env: Env, locale: Locale, origin: string): 
 		origin,
 		main,
 		translationPending,
+		env,
+		url,
 	});
 }

@@ -1,5 +1,6 @@
 import type { Locale } from '../lib/i18n';
 import { htmlLang, localizedPath } from '../lib/i18n';
+import { isNewsletterConfigured, newsletterNoticeFromSearchParams } from '../lib/newsletter';
 import { absoluteLocalizedUrl, siteCopy } from '../lib/site';
 import { escapeHtml } from '../lib/html';
 import { renderFooter } from './footer';
@@ -14,10 +15,27 @@ export type PageShellOptions = {
 	main: string;
 	translationPending?: boolean;
 	headExtras?: string;
+	env?: Env;
+	newsletterAvailable?: boolean;
+	newsletterNotice?: string | null;
+	url?: URL;
 };
 
 export function renderPageShell(options: PageShellOptions): string {
-	const { locale, pathname, title, description, origin, main, translationPending = false, headExtras = '' } = options;
+	const {
+		locale,
+		pathname,
+		title,
+		description,
+		origin,
+		main,
+		translationPending = false,
+		headExtras = '',
+		env,
+		newsletterAvailable = env ? isNewsletterConfigured(env) : (options.newsletterAvailable ?? false),
+		newsletterNotice = options.newsletterNotice ?? (options.url ? newsletterNoticeFromSearchParams(locale, options.url) : null),
+		url: _url,
+	} = options;
 	const copy = siteCopy(locale);
 	const lang = htmlLang(locale);
 	const canonical = absoluteLocalizedUrl(origin, locale, pathname);
@@ -51,12 +69,12 @@ export function renderPageShell(options: PageShellOptions): string {
 </head>
 <body>
 	<a class="skip-link" href="#main-content">${locale === 'gu' ? 'મુખ્ય સામગ્રી પર જાઓ' : 'Skip to main content'}</a>
-	${renderHeader({ locale, pathname })}
+	${renderHeader({ locale, pathname, newsletterAvailable, newsletterNotice })}
 	${pendingBanner}
 	<main id="main-content" class="site-main">
 		${main}
 	</main>
-	${renderFooter({ locale, pathname })}
+	${renderFooter({ locale, pathname, newsletterAvailable, newsletterNotice })}
 	<a class="visually-hidden" href="${escapeHtml(homeHref)}">${escapeHtml(copy.siteName)}</a>
 </body>
 </html>`;
@@ -68,6 +86,8 @@ export function renderSimplePage(
 	origin: string,
 	heading: string,
 	body: string,
+	env?: Env,
+	url?: URL,
 ): string {
 	const main = `<div class="container page-simple">
 		<h1 class="page-title">${escapeHtml(heading)}</h1>
@@ -80,5 +100,7 @@ export function renderSimplePage(
 		title: heading,
 		origin,
 		main,
+		env,
+		url,
 	});
 }

@@ -21,40 +21,40 @@ export async function renderPublicPage(
 	url: URL,
 ): Promise<string | null> {
 	if (pathname === '/about' || pathname.startsWith('/about/')) {
-		return renderAboutPage(env, locale, pathname, origin);
+		return renderAboutPage(env, locale, pathname, origin, url);
 	}
 
 	if (pathname === '/events') {
-		return renderEventsPage(env, locale, origin);
+		return renderEventsPage(env, locale, origin, url);
 	}
 
 	const eventMatch = /^\/events\/([^/]+)$/.exec(pathname);
 	if (eventMatch) {
-		return renderEventDetail(env, locale, eventMatch[1]!, origin);
+		return renderEventDetail(env, locale, eventMatch[1]!, origin, url);
 	}
 
 	if (pathname === '/gallery') {
-		return renderGalleryHub(env, locale, origin);
+		return renderGalleryHub(env, locale, origin, url);
 	}
 	if (pathname === '/gallery/photos') {
-		return renderGalleryPhotos(env, locale, origin, url.searchParams.get('activity')?.trim() ?? '');
+		return renderGalleryPhotos(env, locale, origin, url.searchParams.get('activity')?.trim() ?? '', url);
 	}
 	if (pathname === '/gallery/audio') {
-		return renderGalleryAudioIndex(env, locale, origin);
+		return renderGalleryAudioIndex(env, locale, origin, url);
 	}
 	const audioMatch = /^\/gallery\/audio\/([^/]+)$/.exec(pathname);
 	if (audioMatch) {
-		return renderGalleryAudioTrack(env, locale, origin, audioMatch[1]!);
+		return renderGalleryAudioTrack(env, locale, origin, audioMatch[1]!, url);
 	}
 	if (pathname === '/gallery/videos') {
-		return renderGalleryVideos(env, locale, origin);
+		return renderGalleryVideos(env, locale, origin, url);
 	}
 
 	if (pathname === '/activities') {
-		return renderActivitiesHub(env, locale, origin);
+		return renderActivitiesHub(env, locale, origin, url);
 	}
 	if (pathname === '/activities/sanskaras') {
-		return renderSanskarasIndex(env, locale, origin);
+		return renderSanskarasIndex(env, locale, origin, url);
 	}
 	const sanskarMatch = /^\/activities\/sanskaras\/([^/]+)$/.exec(pathname);
 	if (sanskarMatch) {
@@ -66,16 +66,16 @@ export async function renderPublicPage(
 	}
 
 	if (pathname === '/learn') {
-		return renderLearnHub(env, locale, origin);
+		return renderLearnHub(env, locale, origin, url);
 	}
 	if (pathname === '/learn/downloads') {
-		return renderLearnDownloads(env, locale, origin);
+		return renderLearnDownloads(env, locale, origin, url);
 	}
 	if (pathname === '/learn/reading') {
-		return renderLearnReading(env, locale, origin);
+		return renderLearnReading(env, locale, origin, url);
 	}
 	if (pathname === '/learn/links') {
-		return renderLearnLinks(env, locale, origin);
+		return renderLearnLinks(env, locale, origin, url);
 	}
 
 	if (pathname === '/contact') {

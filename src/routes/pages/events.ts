@@ -81,7 +81,7 @@ function renderSpotlightCard(event: EventRow, locale: Locale): string {
 </article>`;
 }
 
-export async function renderEventsPage(env: Env, locale: Locale, origin: string): Promise<string> {
+export async function renderEventsPage(env: Env, locale: Locale, origin: string, url: URL): Promise<string> {
 	await refreshPastSpotlightEvents(env.DB);
 	const ui = uiCopy(locale);
 	const copy = siteCopy(locale);
@@ -162,6 +162,8 @@ export async function renderEventsPage(env: Env, locale: Locale, origin: string)
 		title: `${locale === 'gu' ? 'કાર્યક્રમો' : 'Events'} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }
 
@@ -170,6 +172,7 @@ export async function renderEventDetail(
 	locale: Locale,
 	eventId: string,
 	origin: string,
+	url: URL,
 ): Promise<string | null> {
 	await refreshPastSpotlightEvents(env.DB);
 	const ui = uiCopy(locale);
@@ -266,5 +269,7 @@ ${mediaSection}
 		title: `${title} | ${copy.siteName}`,
 		origin,
 		main,
+		env,
+		url,
 	});
 }

@@ -7,12 +7,23 @@ import { renderNewsletterForm } from './header';
 export type FooterOptions = {
 	locale: Locale;
 	pathname: string;
+	newsletterAvailable?: boolean;
+	newsletterNotice?: string | null;
 };
 
-export function renderFooter({ locale, pathname }: FooterOptions): string {
+export function renderFooter({
+	locale,
+	pathname,
+	newsletterAvailable = false,
+	newsletterNotice = null,
+}: FooterOptions): string {
 	const copy = siteCopy(locale);
 	const otherLocale = alternateLocale(locale);
 	const switchHref = localizedPath(otherLocale, pathname);
+
+	const notice = newsletterNotice
+		? `<p class="newsletter-notice" role="status">${escapeHtml(newsletterNotice)}</p>`
+		: '';
 
 	return `<footer class="site-footer">
 	<div class="container footer-grid">
@@ -28,7 +39,8 @@ export function renderFooter({ locale, pathname }: FooterOptions): string {
 		<div class="footer-block">
 			<h2 class="footer-heading">${escapeHtml(copy.newsletterHeading)}</h2>
 			<p class="footer-text">${escapeHtml(copy.newsletterHint)}</p>
-			${renderNewsletterForm(locale, 'footer')}
+			${notice}
+			${renderNewsletterForm(locale, 'footer', newsletterAvailable)}
 		</div>
 		<div class="footer-block footer-block--lang">
 			<h2 class="footer-heading">${locale === 'gu' ? 'ભાષા' : 'Language'}</h2>

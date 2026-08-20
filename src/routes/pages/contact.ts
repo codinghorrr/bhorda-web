@@ -103,5 +103,7 @@ ${form}
 		origin,
 		main,
 		translationPending: content.translationPending,
+		env,
+		url,
 	});
 }
