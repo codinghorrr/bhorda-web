@@ -11,6 +11,7 @@ cd "$(dirname "$0")/.."
 
 GITHUB_REPO="${GITHUB_REPO:-axiso/bhorda-web}"
 GITHUB_HOST="${GITHUB_HOST:-github.com}"
+GITHUB_BRANCH="${GITHUB_BRANCH:-main}"
 
 if ! command -v gh >/dev/null 2>&1; then
 	echo "ERROR: GitHub CLI (gh) is required." >&2
@@ -37,8 +38,8 @@ else
 	git remote add github "https://${GITHUB_HOST}/${GITHUB_REPO}.git"
 fi
 
-echo "Pushing main, all branches, and tags to GitHub ..."
-git push github main --tags
+echo "Pushing ${GITHUB_BRANCH}, all branches, and tags to GitHub ..."
+git push github "${GITHUB_BRANCH}" --tags
 git push github --all
 
 echo "Done: https://${GITHUB_HOST}/${GITHUB_REPO}"

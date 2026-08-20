@@ -138,3 +138,19 @@ Production deploy from an agent with `CLOUDFLARE_API_TOKEN` set:
 ```bash
 bash scripts/production-deploy.sh
 ```
+
+## Push to GitHub
+
+The canonical remote today is **Origin**: `https://origin.cursor.com/git/axiso/bhorda-web.git` (branch `main` is up to date).
+
+To mirror on **GitHub** (`github.com/axiso/bhorda-web`):
+
+1. Create a [GitHub personal access token](https://github.com/settings/tokens) with **`repo`** scope.
+2. Add it to Cloud Agent secrets as **`GH_TOKEN`**, or export it locally.
+3. Run:
+
+```bash
+GH_TOKEN=ghp_... bash scripts/push-to-github.sh
+```
+
+This creates the GitHub repo if missing, adds a `github` remote, and pushes **`main`**, all branches, and tags (including `v1.0`).
