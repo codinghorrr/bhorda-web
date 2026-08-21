@@ -1,7 +1,7 @@
 import type { Locale } from '../lib/i18n';
 import { alternateLocale, localizedPath } from '../lib/i18n';
 import { isNavActive, navHref, PRIMARY_NAV } from '../lib/nav';
-import { siteCopy } from '../lib/site';
+import { siteCopy, SITE_LOGO_LOCKUP } from '../lib/site';
 import { escapeHtml } from '../lib/html';
 
 export type HeaderOptions = {
@@ -33,23 +33,17 @@ export function renderHeader({
 		? `<p class="newsletter-notice" role="status">${escapeHtml(newsletterNotice)}</p>`
 		: '';
 
-	const brandScript = copy.brandScript
-		? `<span class="brand-script">${escapeHtml(copy.brandScript)}</span>`
-		: '';
-
 	return `<header class="site-header">
 	<div class="container header-inner">
 		<a class="brand" href="${escapeHtml(homeHref)}" aria-label="${escapeHtml(copy.siteName)}">
-			<img class="brand-logo" src="/images/logo-badge.png" alt="" width="52" height="52" decoding="async" />
-			<span class="brand-text">
-				${brandScript}
-				<span class="brand-primary">${escapeHtml(copy.brandPrimary)}</span>
-				<span class="brand-location">
-					<span class="brand-location__rule" aria-hidden="true"></span>
-					<span class="brand-location__text">${escapeHtml(copy.brandLocation)}</span>
-					<span class="brand-location__rule" aria-hidden="true"></span>
-				</span>
-			</span>
+			<img
+				class="brand-lockup"
+				src="${SITE_LOGO_LOCKUP}"
+				alt=""
+				width="133"
+				height="40"
+				decoding="async"
+			/>
 		</a>
 		<nav class="primary-nav" aria-label="${locale === 'gu' ? 'મુખ્ય નેવિગેશન' : 'Primary'}">
 			<ul class="nav-list">${navItems}</ul>

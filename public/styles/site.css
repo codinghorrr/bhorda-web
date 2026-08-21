@@ -143,10 +143,11 @@ a:hover {
 	flex: 0 1 auto;
 }
 
-.brand-logo {
-	width: 3.25rem;
-	height: 3.25rem;
-	max-width: none;
+.brand-lockup {
+	width: auto;
+	height: 2.5rem;
+	max-width: min(11rem, 46vw);
+	max-height: none;
 	flex-shrink: 0;
 	object-fit: contain;
 }

@@ -4,6 +4,7 @@ import { localizedPath } from './i18n';
 export const SITE_NAME = 'Gayatri Kamdhenu Sevatirth';
 export const SITE_NAME_GU = 'ગાયત્રી કામધેનુ સેવાતીર્થ';
 export const SITE_ORIGIN = 'https://sevatirthbhorda.org';
+export const SITE_LOGO_LOCKUP = '/images/sevatirthbhorda-logo.svg';
 
 export type SiteCopy = {
 	siteName: string;
