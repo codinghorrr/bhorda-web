@@ -111,6 +111,26 @@ npx wrangler types
 npm run deploy
 ```
 
+If **`npm run deploy`** fails with **`10000` / Authentication error** on `/workers/services/sevatirth-bhorda`:
+
+Your `CLOUDFLARE_API_TOKEN` can read D1 but is missing **Workers deploy** permissions. D1-only tokens can run `d1 list` / migrations yet still fail deploy.
+
+1. Create a new token at [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens) (or edit the existing one).
+2. Use **Edit Cloudflare Workers** template, or add these permissions manually:
+   - **Account** → Workers Scripts → **Edit**
+   - **Account** → Workers R2 Storage → **Edit** (R2 media bucket)
+   - **Account** → D1 → **Edit**
+   - **Account** → Workers Tail → **Read** (optional, logs)
+   - **Zone** → **sevatirthbhorda.org** → Workers Routes → **Edit** (custom domains in `wrangler.toml`)
+   - **User** → User Details → **Read** (helps `wrangler whoami`)
+3. Set **`CLOUDFLARE_ACCOUNT_ID`** to the account that owns the Worker and D1 (Dashboard → Workers → account id in the sidebar).
+4. Update the **`CLOUDFLARE_API_TOKEN`** secret in Cursor Cloud Agent settings (or export locally), then retry:
+   ```bash
+   npm run deploy
+   ```
+
+You cannot run `wrangler login` while `CLOUDFLARE_API_TOKEN` is set — unset it first if you prefer OAuth instead of an API token.
+
 `workers.dev` preview URLs stay enabled so the Worker can be hit before DNS is attached.
 
 ## Admin authentication (`/vedmata`)
@@ -149,7 +169,7 @@ Add these secrets in the Cursor Cloud Agent environment settings (not in git):
 
 | Secret | Purpose |
 |---|---|
-| `CLOUDFLARE_API_TOKEN` | Wrangler deploy and remote D1 migrations from agents |
+| `CLOUDFLARE_API_TOKEN` | Wrangler **deploy** + remote D1 — needs Workers Scripts **Edit**, D1 **Edit**, R2 **Edit**, and zone Workers Routes **Edit** (see deploy troubleshooting above) |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account id (avoids Wrangler picking the wrong account) |
 | `SUPERADMIN_PASSWORD` | Local/preview superadmin login |
 | `SES_ACCESS_KEY` / `SES_SECRET_KEY` | OTP email (local dev logs OTP when unset) |
