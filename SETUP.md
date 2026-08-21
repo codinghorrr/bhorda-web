@@ -47,6 +47,21 @@ npx wrangler d1 migrations apply sevatirth-bhorda --local
 npx wrangler d1 migrations apply sevatirth-bhorda --remote
 ```
 
+If `--remote` fails with **`7403` / “account is not valid or is not authorized”**:
+
+1. Confirm you are logged into the Cloudflare account that owns D1 `sevatirth-bhorda`:
+   ```bash
+   npx wrangler login
+   npx wrangler d1 list
+   ```
+2. Ensure `account_id` in `wrangler.toml` matches that account (Wrangler caches it after login).
+3. For CI/agents, set **`CLOUDFLARE_API_TOKEN`** with **Account → D1 → Edit** (and Workers) permissions, plus **`CLOUDFLARE_ACCOUNT_ID`** in environment secrets.
+4. Check migration status without applying:
+   ```bash
+   npx wrangler d1 migrations list sevatirth-bhorda --remote
+   ```
+   `No migrations to apply!` means production D1 is already up to date.
+
 Migration `0007_remove_test_manager.sql` removes the development-only `manager.test@sevatirthbhorda.org` account seeded in `0002`. Integration tests re-insert that user in test setup only.
 
 ## Worker secrets
@@ -135,6 +150,7 @@ Add these secrets in the Cursor Cloud Agent environment settings (not in git):
 | Secret | Purpose |
 |---|---|
 | `CLOUDFLARE_API_TOKEN` | Wrangler deploy and remote D1 migrations from agents |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account id (avoids Wrangler picking the wrong account) |
 | `SUPERADMIN_PASSWORD` | Local/preview superadmin login |
 | `SES_ACCESS_KEY` / `SES_SECRET_KEY` | OTP email (local dev logs OTP when unset) |
 | `SENDY_URL` / `SENDY_LIST_ID` | Newsletter form (optional) |
