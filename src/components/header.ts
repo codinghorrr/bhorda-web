@@ -33,14 +33,22 @@ export function renderHeader({
 		? `<p class="newsletter-notice" role="status">${escapeHtml(newsletterNotice)}</p>`
 		: '';
 
+	const brandScript = copy.brandScript
+		? `<span class="brand-script">${escapeHtml(copy.brandScript)}</span>`
+		: '';
+
 	return `<header class="site-header">
 	<div class="container header-inner">
-		<a class="brand" href="${escapeHtml(homeHref)}">
-			<img class="brand-logo" src="/images/logo-badge.png" alt="" width="48" height="48" decoding="async" />
+		<a class="brand" href="${escapeHtml(homeHref)}" aria-label="${escapeHtml(copy.siteName)}">
+			<img class="brand-logo" src="/images/logo-badge.png" alt="" width="52" height="52" decoding="async" />
 			<span class="brand-text">
-				<span class="brand-name"><span class="brand-name__line">${escapeHtml(copy.brandLine1)}</span><span class="brand-name__line">${escapeHtml(copy.brandLine2)}</span></span>
-				<span class="brand-rule" aria-hidden="true"></span>
-				<span class="brand-location">${escapeHtml(copy.brandLocation)}</span>
+				${brandScript}
+				<span class="brand-primary">${escapeHtml(copy.brandPrimary)}</span>
+				<span class="brand-location">
+					<span class="brand-location__rule" aria-hidden="true"></span>
+					<span class="brand-location__text">${escapeHtml(copy.brandLocation)}</span>
+					<span class="brand-location__rule" aria-hidden="true"></span>
+				</span>
 			</span>
 		</a>
 		<nav class="primary-nav" aria-label="${locale === 'gu' ? 'મુખ્ય નેવિગેશન' : 'Primary'}">
