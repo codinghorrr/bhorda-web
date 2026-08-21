@@ -46,6 +46,7 @@ describe('public pages', () => {
 		expect(html).toContain('our-story-narrative');
 		expect(html).toContain('story-stats');
 		expect(html).toContain('story-scroll-timeline');
+		expect(html).toContain('story-scroll-timeline__track');
 		expect(html).toContain('64+');
 		expect(html).toContain('our-story-timeline.js');
 		expect(html).toContain('A journey of thirty-five years');

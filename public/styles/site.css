@@ -1211,7 +1211,7 @@ a:hover {
 }
 
 .story-stats {
-	margin-block: clamp(2rem, 5vw, 3rem);
+	margin-block: clamp(2rem, 5vw, 3rem) clamp(2.5rem, 6vw, 3.5rem);
 	padding-block: clamp(1.5rem, 4vw, 2.5rem);
 	border-block: 1px solid color-mix(in srgb, var(--gold) 28%, white);
 	background: linear-gradient(180deg, var(--gold-tint), color-mix(in srgb, var(--gold-tint) 35%, transparent));
@@ -1284,18 +1284,24 @@ a:hover {
 .story-scroll-timeline {
 	position: relative;
 	max-width: none;
-	margin: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(3rem, 6vw, 5rem);
+	margin: clamp(2rem, 5vw, 3rem) 0 clamp(3rem, 6vw, 5rem);
 	padding: 0;
 }
 
 .story-scroll-timeline__heading {
-	margin: 0 0 clamp(1.5rem, 4vw, 2.25rem);
+	margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+	padding-inline: clamp(1rem, 4vw, 2rem);
 	text-align: center;
 	font-family: var(--font-serif);
 	font-size: clamp(1.35rem, 3vw, 1.65rem);
 	font-weight: 700;
 	line-height: 1.2;
 	color: var(--maroon);
+}
+
+.story-scroll-timeline__track {
+	position: relative;
+	padding-top: 0.25rem;
 }
 
 .story-scroll-timeline__spine {
@@ -1307,6 +1313,7 @@ a:hover {
 	margin-left: -1.5px;
 	background: color-mix(in srgb, var(--maroon) 12%, transparent);
 	overflow: hidden;
+	z-index: 0;
 }
 
 .story-scroll-timeline__spine-fill {
@@ -1343,6 +1350,8 @@ a:hover {
 }
 
 .story-scroll-timeline__list {
+	position: relative;
+	z-index: 1;
 	list-style: none;
 	margin: 0;
 	padding: 0;

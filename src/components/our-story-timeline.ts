@@ -97,8 +97,10 @@ export function renderOurStoryScrollTimeline(events: StoryTimelineEvent[], local
 
 	return `<section class="story-scroll-timeline" data-story-timeline aria-label="${escapeHtml(label)}">
 	<h2 class="story-scroll-timeline__heading">${escapeHtml(heading)}</h2>
+	<div class="story-scroll-timeline__track">
 	<div class="story-scroll-timeline__spine" aria-hidden="true"><div class="story-scroll-timeline__spine-fill"></div></div>
 	<ol class="story-scroll-timeline__list">${items}</ol>
+	</div>
 	<div class="story-scroll-timeline__progress-label" data-story-progress-label aria-hidden="true"></div>
 </section>`;
 }

@@ -2,6 +2,7 @@
 	'use strict';
 
 	function initStoryTimeline(root) {
+		var track = root.querySelector('.story-scroll-timeline__track') || root;
 		var spineFill = root.querySelector('.story-scroll-timeline__spine-fill');
 		var progressLabel = root.querySelector('[data-story-progress-label]');
 		var items = Array.prototype.slice.call(root.querySelectorAll('.story-scroll-timeline__item'));
@@ -37,7 +38,7 @@
 
 		function updateSpine() {
 			if (!spineFill) return;
-			var rect = root.getBoundingClientRect();
+			var rect = track.getBoundingClientRect();
 			var viewportH = window.innerHeight || document.documentElement.clientHeight;
 			var total = rect.height;
 			var scrolled = Math.min(Math.max(viewportH * 0.6 - rect.top, 0), total);
